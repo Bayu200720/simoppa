@@ -16,9 +16,9 @@
 $verif = find_by_filed('verifikasi',$_GET['id'],'id_pengajuan');
 
 $id_pengajuan = $_GET['id'];
-$update ="UPDATE `pengajuan` SET `status_verifikasi`=".$_SESSION['user_id']." WHERE `pengajuan`.`id` =".$id_pengajuan;
+//$update ="UPDATE `pengajuan` SET `status_verifikasi`=".$_SESSION['user_id']." WHERE `pengajuan`.`id` =".$id_pengajuan;
 //    echo $update; exit();
-    $db->query($update);
+   // $db->query($update);
 if($verif == NULL){
   
     $query = "INSERT INTO verifikasi (`id_pengajuan`) VALUES (".$id_pengajuan.")";
@@ -156,10 +156,10 @@ $id_nodin= $id['id_nodin'];
                <td class="text-center"><?php echo count_id();?></td>
                <td>Status Dokumen</td>
                 <td class="text-center">
-                <?php if($verif['status_pengajuan'] == 1){?>
-                  <a href="proses_v.php?id=<?=$verif['id']?>&key=bstatus_pengajuan" class="btn btn-danger">Batal</a>
+                <?php if($verif['status_pengajuan'] != 0){?>
+                  <a href="proses_v.php?id=<?=$verif['id']?>&key=bstatus_pengajuan&idp=<?php echo $id_pengajuan;?>" class="btn btn-danger">Batal</a>
                 <?php }else{ ?>
-                  <a href="proses_v.php?id=<?=$verif['id']?>&key=status_pengajuan" class="btn btn-success">Terima</a>
+                  <a href="proses_v.php?id=<?=$verif['id']?>&key=status_pengajuan&idp=<?php echo $id_pengajuan;?>" class="btn btn-success">Terima</a>
                 <?php } ?>
                 </td>      
              </tr>

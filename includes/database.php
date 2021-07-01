@@ -51,12 +51,11 @@ public function query($sql)
       if (!$this->query_id){
 
         return false;
-
-         // only for Develope mode
+        // only for Develope mode
               
-         // die("Error on this Query :<pre> " . $sql ."</pre>");
-       // For production mode
-        //  die("Error on Query");
+      //  die("Error on this Query :<pre> " . $sql ."</pre>");
+      //  //  For production mode
+      //    die("Error on Query");
         
       }
        

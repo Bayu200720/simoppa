@@ -119,15 +119,25 @@ $idi= $_GET['id'];
            
            ?>" class="btn btn-warning" style="margin: 20px;" target="_BLANK">Form Verif</a>
        <?php } ?> 
-              <a href="histori.php?id=<?=$sale['id']?>" class="btn btn-primary">Histori</a>
-           <?php 
-              $user=find_by_id('users',$_SESSION['user_id']); 
+              <a href="histori.php?id=<?=$sale['id']?>" class="btn btn-primary">Histori
+              <?php 
+                  $user=find_by_id('users',$_SESSION['user_id']); 
             
-				$hsl = find_count_global('histori',$sale['id'],'id_pengajuan'); 
+			            	$hsl = find_count_global('histori',$sale['id'],'id_pengajuan'); 
                     if($hsl[0]['jml'] > 0){
                       echo '<span class="badge">'.$hsl[0]['jml'].'</span>';
                       }
-            ?>
+                 ?>
+              </a>
+            
+            <a href="cetakNodin.php?id=<?php echo $sale['id_nodin'];?>" class="btn btn-primary" target="_BLANK">Nodin</a>
+
+            <?php $user['id_satker'] = $nodin['id_satker'];
+            if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){?>
+
+            <a href="cetakNodinSes.php?id=<?php echo $sale['id_nodin'];?>" class="btn btn-primary" target="_BLANK">Nodin Ses</a>
+
+            <?php } ?>
               </td>
               <td class="text-center"><?php echo $sale['created_at']?></td>
                <td class="text-center">

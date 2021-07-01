@@ -282,12 +282,14 @@ if($_GET['status']=='delete_nodin'){
                 <?php if($sale['status'] == 1){
                                 $pengajuan = find_all_global('pengajuan',$sale['id'],'id_nodin'); 
                         ?>
-                        <a class="btn btn-success" disabled>Sudah Diapprovel</a>
+                        <a class="btn btn-success" disabled>Approved</a>
                       <?php }else if($sale['status'] == 2){?>
                         <a href="pengajuan_UP.php?id=<?=$sale['id']?>&key=ajukan&p=update_approval" class="btn btn-warning" disabled>Menunggu Approval</a>
                       <?php }else{ $sp1= find_nodin_j_pengajuan_pum_j_dt_count($satker[0]['tahun'],$user['id_satker'],$sale['id']); ?>
                         <a onclick="return confirm('Apakah Anda Yakin ingin mengajuan Approval?')" href="pengajuan_UP.php?id=<?=$sale['id']?>&key=ajukan&p=update_approval" class="btn btn-primary" <?php if($sp1[0]['status'] == 0){ echo 'disabled';}?>>Ajukan Approval</a>
-                  <?php } ?>
+                        <?php if($sale['status']== '3'){?>
+                        <a class='btn btn-danger' disabled>Ditolak</a>
+                  <?php }} ?>
 
                       <?php $sp= find_nodin_j_pengajuan_pum_j_dt_count($satker[0]['tahun'],$user['id_satker'],$sale['id']); 
 							if($sp[0]['status'] == 0){ 
@@ -300,7 +302,7 @@ if($_GET['status']=='delete_nodin'){
                   <?php if($sale['status_pencairan']== 1){?>
                         <span class="btn btn-success" disabled>Diproses</span>
                    <?php }else{ ?>
-                         <span class="btn btn-danger" disabled>Belom di proses</span>
+                         <span class="btn btn-danger" disabled>Belum di proses</span>
                    <?php } ?>
                 </td>
                 <td class="text-center">
@@ -313,7 +315,7 @@ if($_GET['status']=='delete_nodin'){
                         <span class="glyphicon glyphicon-pencil"></span>
                         </a>
 
-                        <?php $pengj = count_by_id_nodin('pengajuan',$sale['id']); if($pengj['total'] < 1 ){ ?>  
+                        <?php $pengj = count_by_id_a('detail_pengajuan_pum','id_pengajuan_pum',$sale['id']); if($pengj['total'] < 1 ){ ?>  
                         <a onclick="return confirm('Yakin Hapus?')" href="pengajuan_UP.php?id=<?php echo (int)$sale['id'];?>&status=delete_nodin" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
                           <span class="glyphicon glyphicon-trash"></span>
                         </a>
@@ -323,8 +325,6 @@ if($_GET['status']=='delete_nodin'){
                         <a href="detail_pengajuan_nodin_pum.php?id=<?php echo (int)$sale['id'];?>" class="btn btn-primary btn-xs"  title="Detail nodin" data-toggle="tooltip">
                           <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
-
-                        
                       </div>
                   </td>
               </tr>

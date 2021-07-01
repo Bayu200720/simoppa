@@ -10,7 +10,12 @@ $satker = find_all_global('satker',$user['id_satker'],'id');
 
 $tahun = date('Y');
 
-$sales = find_all_global('akun',$tahun,'tahun'); 
+if(isset($_GET['carisatker'])){
+  $sales = find_all_global_satker('akun',$tahun,'tahun',$_GET['id_satker']); 
+  //dd($sales);
+}else{
+  $sales = find_all_global('akun',$tahun,'tahun'); 
+}
 ?>
 <?php
 if(isset($_POST['submit_mak'])){
@@ -146,6 +151,22 @@ if($_GET['status']=='delete_akun'){
           <span>All MAK</span>
         </strong>
         <div class="pull-right">
+        <form action="Mmak.php" method="GET">
+          <div class="form-group">
+                <label for="exampleInputEmail1">Satker</label>  
+                    <select class="form-control" name="id_satker">
+                        <option value="">Pilih Satker</option>
+                        <?php $jenis = find_all('satker');?>
+                      <?php  foreach ($jenis as $j): ?>
+                        <option value="<?php echo (int)$j['id'] ?>">
+                          <?php echo $j['keterangan'] ?></option>
+                      <?php endforeach; ?>
+                </select>         
+          </div>
+          <div class="form-group">
+              <input type="submit" class="btn btn-primary" name="carisatker" value="Pilih">
+              </form>
+          </div>
           <a href="#" class="btn btn-primary" id="mak" data-toggle="modal" data-target="#TambahMAK"><span class="glyphicon glyphicon-plus">ADD</span></a>
           <a href="#" class="btn btn-success" id="import"  data-toggle="modal" data-target="#UploadCSV" data-id="<?=$_GET['id'];?>" ><span class="glyphicon glyphicon-upload"></span></a>
           <a href="uploads/data_excle/mak.csv">Excle</a>
@@ -176,7 +197,7 @@ if($_GET['status']=='delete_akun'){
                <td class="text-center">
                 <div class="btn-group">
                  <a href="#" title="Edit" <?php $akun = find_by_id('akun',$sale['id']);?> class="btn btn-warning btn-xs" id="editakun" data-toggle="modal" 
-                   data-target="#UpdateMAK" data-id='<?=$akun['id'];?>' data-tahun='<?=$akun['tahun'];?>' data-kode='<?=$akun['mak'];?>' data-uraian='<?=$akun['keterangan'];?>'>
+                   data-target="#UpdateMAK" data-id='<?=$akun['id'];?>' data-tahun='<?=$akun['tahun'];?>' data-kode='<?=$akun['mak'];?>' data-uraian='<?=$akun['keterangan'];?>'  data-nominal='<?=$akun['nominal'];?>'>
                    <span class="glyphicon glyphicon-pencil"></span>
                  </a>
                  <a onclick="return confirm('Yakin Hapus?')" href="Mmak.php?id=<?php echo (int)$sale['id'];?>&status=delete_akun" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
@@ -220,7 +241,7 @@ if($_GET['status']=='delete_akun'){
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">Nominal</label>
-            <input type="number" class="form-control" id="nominal" name="nominal" placeholder="Nominal">
+            <input type="text" class="form-control" id="nominal1" name="nominal" placeholder="Nominal">
           </div>
           <div class="form-group">
               <label for="exampleInputEmail1">Satker</label>  

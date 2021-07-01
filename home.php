@@ -12,6 +12,7 @@
    $spm_belom_diproses   = spm_blm_proses($user['id_satker']);
    $pj= find_count_statusVerif_tahun('upload_pertanggungjawaban','',$user['id_satker'],$user['tahun']); 
    $realisasi_bpp = find_realisasi_bpp($user['id_satker'],$user['tahun']);
+   
 
 ?>
 <?php include_once('layouts/header.php'); ?>

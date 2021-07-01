@@ -37,7 +37,8 @@ class  Media {
    'doc',
    'spp',
    'rar',
-   'spm'
+   'spm',
+   'zip'
   );
   public function file_ext($filename){
      $ext = strtolower(substr( $filename, strrpos( $filename, '.' ) + 1 ) );

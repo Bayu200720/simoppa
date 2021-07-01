@@ -25,7 +25,7 @@ if($_GET['p']=='update'){
   	
     if($db->query($query)){
 
-      $session->msg('s',"Telah di Approvel ");
+      $session->msg('s',"Approved ");
    
       if($user['user_level']==8){
        redirect('nodin_pimpinan_pum.php', false);
@@ -121,9 +121,9 @@ if($_GET['p']=='batal'){
                       <?php if($sale['status'] == 1){
                                 $pengajuan = find_all_global('pengajuan_pum',$sale['id'],'id'); 
                         ?>
-                        <a onclick="return confirm('Apakah anda yakin untuk membatalkan Approvel?');" href="nodin_pimpinan_pum.php?id=<?=$sale['id']?>&key=ajukan&p=batal" class="btn btn-success" <?php if($pengajuan[0]['status'] == 0){?> disabled <?php } ?>>Sudah Diapprovel</a>
+                        <a onclick="return confirm('Apakah anda yakin untuk membatalkan Approvel?');" href="nodin_pimpinan_pum.php?id=<?=$sale['id']?>&key=ajukan&p=batal" class="btn btn-success" <?php if($pengajuan[0]['status'] == 0){?> disabled <?php } ?>>Approved</a>
                       <?php }else if($sale['status'] == 2){ ?>
-                        <a onclick="return confirm('Apakah anda yakin untuk Approvel?');" href="nodin_pimpinan_pum.php?id=<?=$sale['id']?>&key=ajukan&p=update" class="btn btn-primary">Approvl</a>
+                        <a onclick="return confirm('Apakah anda yakin untuk Approvel?');" href="nodin_pimpinan_pum.php?id=<?=$sale['id']?>&key=ajukan&p=update" class="btn btn-primary">Approval</a>
                       <?php } ?>
                 
                 </td>

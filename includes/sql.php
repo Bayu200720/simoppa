@@ -16,6 +16,7 @@ function find_all($table) {
 function find_pengajuanok()
 {
   global $db;
+
   return find_by_sql("SELECT p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang  FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 ORDER BY p.id DESC");
     
    
@@ -57,7 +58,7 @@ function find_count_statusVerif_tahun($status,$isi,$id_satker,$tahun)
 function find_count_statusVerif_tahun_keuangan($status,$isi,$tahun)
 {
   global $db;
-  return find_by_sql("SELECT count(*) as jml from nodin n,pengajuan p where n.id = p.id_nodin and p.{$status} = '{$isi}' and n.tahun='{$tahun}'");
+  return find_by_sql("SELECT count(*) as jml from nodin n,pengajuan p where n.id = p.id_nodin and p.{$status} = '{$isi}' and n.tahun='{$tahun}' and n.approvel_atasan = 1");
    
 }
 
@@ -275,6 +276,10 @@ function find_sptjb_pum() {
   global $db;
     return find_by_sql("SELECT dp.no_sptjb as no_sptjb,dp.id_akun as id_akun,dp.nominal as nominal,dp.pph as pph,dp.ppn as ppn,dp.tanggal_dp as tanggal_dp,dp.keterangan as keterangan,dp.id as id,dp.file_pj as file_pj,p.id_satker as id_satker,p.spm as spm FROM detail_pengajuan dp, pencairan p WHERE dp.id_pencairan = p.id and dp.id_pengajuan = 0");
 }
+function find_koor($a) {
+  global $db;
+    return find_by_sql("SELECT * FROM users WHERE id_satker='{$a}' and user_level = 8");
+}
 /*--------------------------------------------------------------*/
 /* Function for Perform queries
 /*--------------------------------------------------------------*/
@@ -415,7 +420,18 @@ function count_by_id_nodin($table,$id){
   if(tableExists($table))
   {
     $sql    = "SELECT COUNT(id) AS total FROM ".$db->escape($table)." WHERE id_nodin=".$id;
-    $result = $db->query($sql);
+     $result = $db->query($sql);
+     return($db->fetch_assoc($result));
+  }
+}
+
+function count_by_id_a($table,$key,$id){
+  global $db;
+  if(tableExists($table))
+  {
+    $sql    = "SELECT COUNT(id) AS total FROM ".$db->escape($table)." WHERE {$key}=".$id;
+    //dd($sql);
+     $result = $db->query($sql);
      return($db->fetch_assoc($result));
   }
 }

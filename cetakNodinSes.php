@@ -13,8 +13,7 @@
 ?>
 <?php
 $nodin = find_all_global('nodin',$_GET['id'],'id');
-$satker = find_all_global('satker',$nodin[0]['id_satker'],'id');
-
+$satker = find_all_global('satker',$nodin[0]['id_satker'],'id'); //dd($satker);
 $pengajuan= find_n_p_dp($nodin[0]['id']);
 
 ?>
@@ -36,14 +35,10 @@ $pengajuan= find_n_p_dp($nodin[0]['id']);
 </head>
 
 <body>
-  <br>
-	
-<p align="center">&nbsp;</p>
-<p align="center">&nbsp;</p>
-<p align="center">&nbsp;</p>
+<img src="uploads/users/KOP_MODISES2.png" alt="" width="900" height="140">
 <p align="center">&nbsp;</p>
 <p align="center"><strong>NOTA DINAS </strong></p>
-<p align="center"> No. : &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<?=$nodin[0]['no_nodin']?> /<?=$satker[0]['prefik']?>/KU.01.05/<?php echo $today = date('m' ); ?>/<?=date('Y');?> </p>
+<p align="center"> No. : &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<?=$nodin[0]['no_nodin_ppkses']?>/PPK /BLSDM.1/<?php $tanggal=$nodin[0]['tanggal']; $has=explode("-",$tanggal); echo $has[1]; ?>/<?=$has[0];?>  </p>
 <table width="100%" cellpadding="0" cellspacing="0" >
   <tr>
     <td width="173" valign="top"> Kepada Yth </td>
@@ -68,7 +63,7 @@ $pengajuan= find_n_p_dp($nodin[0]['id']);
   <tr>
     <td width="173" valign="top"> Tanggal </td>
     <td width="24" valign="top"> : </td>
-    <td width="743" valign="top"><?php echo $today = date('j-m-y' ); ?> </td>
+    <td width="743" valign="top"><?php echo tanggal_indo($nodin[0]['tanggal_ppkses']); ?> </td>
   </tr>
   <tr>
     <td width="173" valign="top"> Sifat </td>

@@ -112,7 +112,7 @@
                       <?php $user=find_by_id('users',$_SESSION['user_id']); $jenis = find_all_global_tahun('akun',$user['id_satker'],'id_satker',$user['tahun']);//var_dump($jenis);exit();?>
                     <?php  foreach ($jenis as $j): ?>
                       <option value="<?php echo (int)$j['id'] ?>">
-                        <?php echo $j['keterangan'] ?>-<?php echo $j['mak'] ?></option>
+                        <?php echo $j['mak'] ?>-<?php echo $j['keterangan'] ?></option>
                     <?php endforeach; ?>
                 </select>
                </div>

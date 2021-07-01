@@ -28,16 +28,16 @@
     if($photo->process_media($id)){
         $session->msg('s','dokumen has been uploaded.');
             if($user['user_level']==5){
-           redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
+           //redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
         }else{
-        redirect('detail_dokumen.php?id='.$pengajuan['id']);
+          //redirect('detail_dokumen.php?id='.$pengajuan['id']);
        }
     } else{
       $session->msg('d',join($photo->errors));
       if($user['user_level']==5){
-           redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
+          // redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
         }else{
-        redirect('detail_dokumen.php?id='.$pengajuan['id']);
+        //redirect('detail_dokumen.php?id='.$pengajuan['id']);
        }
     }
 

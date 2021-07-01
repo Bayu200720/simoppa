@@ -255,6 +255,16 @@ if(isset($_POST['update_sp2d'])){
                                   echo "<span class='glyphicon glyphicon-ok-circle btn-success'></span>Telah di Proses ";
                               }	             		
                           ?>
+                         <a href="histori.php?id=<?=$sale['id']?>" class="btn btn-primary">Histori</a>
+                        <?php 
+                            $user=find_by_id('users',$_SESSION['user_id']); 
+                          
+                      $hsl = find_count_global('histori',$sale['id'],'id_pengajuan'); 
+                                  if($hsl[0]['jml'] > 0){
+                                    echo '<span class="badge">'.$hsl[0]['jml'].'</span>';
+                                    }
+                          ?>  
+
                      </td>
                       <td class="text-center">
                           <div class="btn-group">

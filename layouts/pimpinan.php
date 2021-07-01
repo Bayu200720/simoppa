@@ -24,7 +24,7 @@
          <li><a href="nodin_pimpinan_pum.php">Manage Pengajuan UP</a> </li>
      </ul>
   </li>
-  <?php if($_SESSION['user_id'] == 38){ ?>
+  <?php if($_SESSION['user_id'] == 38 OR $_SESSION['user_id'] == 51){ ?>
   <li>
     <a href="#" class="submenu-toggle">
       <i class="glyphicon glyphicon-th-list"></i>

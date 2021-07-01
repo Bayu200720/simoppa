@@ -2,7 +2,7 @@
 $page_title = 'Hostori';
 require_once('includes/load.php');
   // Checkin What level user has permission to view this page
-page_require_level(6);
+//page_require_level(6);
 ?>
 <?php
 $user=find_by_id('users',$_SESSION['user_id']);

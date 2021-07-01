@@ -135,15 +135,35 @@ table td {padding-left:3px;}
       <br />
       PPK/BPP/ WBPP / PUM</p>
       <p align="center" class="style28"><br />
-        <img width="100px" height="100px" src="uploads/users/<?php echo $satker[0]['ttd'];?>.png" alt="">
+      <?php
+              include "phpqrcode/qrlib.php";
+                  $nama = "Disahkan Oleh :".$satker[0]['ppk']." NIP. ".$user['nip_ppk'];
+                  $folder = "qrcode/";
+                  $qual = "H";
+                  $nm_file= $satker[0]['ppk'].".png";
+                  $ukuran = 4;
+                  $padding = 0;
+                QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); ?> 
+
+        <img width="100px" height="100px" src="qrcode/<?php echo $satker[0]['ppk'];?>.png" alt="">
       </p>
       <p align="center" class="style28">(____________________)</p>      </td>
     <td width="33%" valign="top"><p align="center" class="style28">Mengetahui,<br />
       Tgl<br />
       Kasubag Verifikasi</p>
       <p align="center" class="style28"><br />
-      <?php if($pengajuan[0]['verifikasi_kasubbag_v']==1){?>  
-           <img width="100px" height="100px" src="uploads/users/hendri.png" alt="">
+      <?php if($pengajuan[0]['verifikasi_kasubbag_v']==1){?>
+        <?php
+              ini_set('date.timezone', 'Asia/Jakarta');
+              include "phpqrcode/qrlib.php";
+                  $nama = "Disahkan Oleh :Hendri Jamaludin SE NIP. 198402092009011003 ";
+                  $folder = "qrcode/";
+                  $qual = "H";
+                  $nm_file= "qrHendri.png";
+                  $ukuran = 4;
+                  $padding = 0;
+                QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); ?>  
+           <img width="100px" height="100px" src="qrcode/qrHendri.png" alt="">
       <?php } ?>
       </p>
       <p align="center" class="style28">(____________________)</p>      </td>
@@ -151,9 +171,17 @@ table td {padding-left:3px;}
       Tgl:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Pukul :<br />
     Verifikator Keuangan</p>
       <p align="center" class="style28"><br />
-      <?php if($verifikasi[0]['status_pengajuan']==1){?>
-        <?php $user= find_by_id('users',$pengajuan[0]['status_verifikasi']);?>
-        <img width="100px" height="100px" src="uploads/users/<?=$user['ttd']?>.png" alt="">
+      <?php $user= find_by_id('users',$pengajuan[0]['status_verifikasi']); ?>
+      <?php if($verifikasi[0]['status_pengajuan']==1){
+            $nama = "Disahkan Oleh :".$user['name']." NIP. ".$user['nip']." ";
+            $folder = "qrcode/";
+            $qual = "H";
+            $nm_file= $user['name'].".png";
+            $ukuran = 4;
+            $padding = 0;
+          QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); ?>  
+       
+       <img width="100px" height="100px" src="qrcode/<?php echo $user['name'];?>.png" alt="">
       <?php } ?>
       </p>
       <p align="center" class="style28">(___________________)</p>      </td>

@@ -5,7 +5,22 @@
       <span>Dashboard</span>
     </a>
   </li>
- 
+  <?php
+  $user = find_by_id('users',$_SESSION['user_id']); 
+    if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){
+  ?>
+  <li>
+    <a href="#" class="submenu-toggle">
+      <i class="glyphicon glyphicon-th-list"></i>
+       <span>Pengajuan LS</span>
+      </a>
+      <ul class="nav submenu">
+         <li><a href="nodin_bpp.php">Manage Pengajuan</a> </li>
+     </ul>
+  </li>
+  <?php 
+    }else{
+  ?>
   <li>
     <a href="#" class="submenu-toggle">
       <i class="glyphicon glyphicon-th-list"></i>
@@ -15,6 +30,7 @@
          <li><a href="nodin_bpp.php">Manage Pengajuan</a> </li>
      </ul>
   </li>
+  <?php } ?>
   <li>
     <a href="#" class="submenu-toggle">
       <i class="glyphicon glyphicon-th-list"></i>
@@ -34,7 +50,6 @@
   <?php
   $user = find_by_id('users',$_SESSION['user_id']); 
     if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){
-
   ?>
   <li>
     <a href="#" class="submenu-toggle">
@@ -69,7 +84,7 @@
   <li>
     <a href="Pertanggungjawaban.php" class="submenu-toggle">
       <i class="glyphicon glyphicon-th-list"></i>
-       <span>Dokuemn PJ</span>
+       <span>Dokumen PJ</span>
       
             <?php 
               $user=find_by_id('users',$_SESSION['user_id']); 

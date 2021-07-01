@@ -43,7 +43,7 @@ $pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pu
 <p align="center">&nbsp;</p>
 <p align="center">&nbsp;</p>
 <p align="center"><strong>NOTA DINAS </strong></p>
-<p align="center"> No. : &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<?=$nodin[0]['no']?> /<?=$satker[0]['prefik']?>/KU.01.05/<?php echo $today = date('m' ); ?>/<?=date('Y');?> </p>
+<p align="center"> No. : &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<?=$nodin[0]['no']?> /<?=$satker[0]['prefik']?>/KU.01.05/<?php $tanggal=$nodin[0]['tanggal']; $has=explode("-",$tanggal); echo $has[1]; ?>/<?=$has[0];?> </p>
 <table width="100%" cellpadding="0" cellspacing="0" >
   <tr>
     <td width="173" valign="top"> Kepada Yth </td>
@@ -53,7 +53,7 @@ $pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pu
   <tr>
     <td width="173" valign="top">Dari</td>
     <td width="24" valign="top"> : </td>
-    <td width="743" valign="top"> Pejabat Pembuat Komitmen <?=$satker[0]['keterangan']?> </td>
+    <td width="743" valign="top"> Koordinator <?=$satker[0]['keterangan']?> </td>
   </tr>
   <tr>
     <td width="173" valign="top">Lampiran </td>
@@ -68,7 +68,7 @@ $pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pu
   <tr>
     <td width="173" valign="top"> Tanggal </td>
     <td width="24" valign="top"> : </td>
-    <td width="743" valign="top"><?php echo $today = date('j-m-y' ); ?> </td>
+    <td width="743" valign="top"><?php echo tanggal_indo($nodin[0]['tanggal']); ?></td>
   </tr>
   <tr>
     <td width="173" valign="top"> Sifat </td>
@@ -135,22 +135,23 @@ $pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pu
             
           </td>
         <td width="188" valign="top" class="style24">&nbsp;</td>
-        <td width="330" valign="top" class="style24"><p>Pejabat Pembuat Komitmen <br>
+        <td width="330" valign="top" class="style24"><p>Koordinator <br>
         <?=$satker[0]['keterangan']?> </p>
             <p> <br>
               <br>
               <?php
               ini_set('date.timezone', 'Asia/Jakarta');
-            
-                  $nama = "Disahkan Oleh :".$satker[0]['ppk']." NIP.".$satker[0]['nip_ppk'];
+              $carikoor= find_koor($satker[0]['id']);//dd($carikoor);
+                  $nama = "Disahkan Oleh :".$carikoor[0]['name']." NIP.".$carikoor[0]['nip'];
                   $folder = "qrcode/";
                   $qual = "H";
-                  $nm_file= "qr".$satker[0]['nip_ppk'].".png";
+                  $nm_file= "qr".$carikoor[0]['nip'].".png";
                   $ukuran = 4;
                   $padding = 0;
                 QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); 
                 
                 if($nodin[0]['status']== 1 ){
+                  
                 ?>
                 <img src="qrcode/<?=$nm_file;?>" alt="">
                 <?php } ?>

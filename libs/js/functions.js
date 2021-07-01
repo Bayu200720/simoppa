@@ -39,10 +39,13 @@ $(document).on('click','#editakun',function(){
   var kode=$(this).data('kode');
   var uraian=$(this).data('uraian');
   var tahun=$(this).data('tahun');
+  var nominal1 =$(this).data('nominal');
   $('.modal-body #id').val(id);   
   $('.modal-body #kode').val(kode);   
   $('.modal-body #uraian').val(uraian); 
-  $('.modal-body #tahun').val(tahun); 
+  $('.modal-body #tahun').val(tahun);
+  $('.modal-body #nominal1').val(nominal1);  
+
 });
 
 
@@ -59,11 +62,13 @@ $(document).on('click','#editsp2d',function(){
     var tanggal=$(this).data('tanggal');
     var tahun=$(this).data('tahun');
     var no_nodin = $(this).data('no_nodin');
+    var pp = $(this).data('pp');
         
     $('.modal-body #id').val(id);
     $('.modal-body #tanggal').val(tanggal);
     $('.modal-body #tahunN').val(tahun);
     $('.modal-body #no_nodin').val(no_nodin);
+    $('.modal-body #pp').val(pp);
   })
 
 $(document).on('click','#editpencairan',function(){

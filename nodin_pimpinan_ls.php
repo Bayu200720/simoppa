@@ -14,12 +14,13 @@ if(isset($_POST['nodin'])){
     $req_fields = array('no_nodin');
     $id = remove_junk($db->escape($_POST['id']));
     $no_nodin = remove_junk($db->escape($_POST['no_nodin']));
+    $tgl = remove_junk($db->escape($_POST['tgl']));
     validate_fields($req_fields);
     if(empty($errors)){
       $id   = remove_junk($db->escape($_POST['id']));
       
       $query  = "UPDATE nodin SET ";
-      $query .=" no_nodin= '{$no_nodin}'";
+      $query .=" no_nodin_ppkses= '{$no_nodin}',tanggal_ppkses='{$tgl}'";
       $query .=" WHERE id='{$id}'";
       //var_dump($query);exit();
       if($db->query($query)){
@@ -162,12 +163,12 @@ if($_GET['p']=='batal'){
              <?php foreach ($sales as $sale):?>
              <tr >
                <td class="text-center"><?php echo count_id();?></td>
-               <td class="text-center"><?php echo $sale['tanggal']; ?></td>
+               <td class="text-center"><?php echo $sale['tanggal_ppkses']; ?></td>
                <td class="text-center"><?php $jenis = find_by_id('jenis',$sale['id_jenis']); echo $jenis['keterangan'];  ?></td>
         
                <td class="text-center"><?php echo $sale['p_pengajuan']; ?></td>
                <td class="text-center">
-               <a href="#" class="btn btn-primary" id="UploadSPM" data-toggle="modal" data-target="#uploadSPM" data-id='<?=$sale['id'];?>'><?php echo $sale['no_nodin']; ?></a> 
+               <a href="#" class="btn btn-primary" id="UploadSPM" data-toggle="modal" data-target="#uploadSPM" data-id='<?=$sale['id'];?>'><?php if($sale['no_nodin_ppkses']==''){echo "Tambahkan nomor ND";}else{ echo $sale['no_nodin_ppkses']; }?></a> 
                </td>
 
                 <td class="text-center">
@@ -218,7 +219,7 @@ if($_GET['p']=='batal'){
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambahkan no nodin</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Tambahkan data nodin</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -228,7 +229,11 @@ if($_GET['p']=='batal'){
        <div class="form-group">
         <label for="exampleInputEmail1">No Nodin</label>
         <input type="number" class="form-control" id="no_nodin" name="no_nodin" placeholder="NO Nodin">
+        
         <input type="hidden" class="form-control" id="id" name="id" >
+       </div>
+       <div class="form-group">
+       <input type="date" class="form-control" id="tgl" name="tgl" placeholder="Tanggal">
        </div>
       </div>
       <div class="modal-footer">

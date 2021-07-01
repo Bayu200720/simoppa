@@ -18,7 +18,6 @@ $sales = find_all_global('pengajuan',$_GET['id'],'id_nodin');
 $id = find_all_global('pengajuan',$_GET['id'],'id_nodin');
 $pengajuan = find_by_id('pengajuan',(int)$_GET['id']);
 $nodin = find_all_global('nodin',$_GET['id'],'id');
-var_dump();
 $idi= $_GET['id'];
 
 
@@ -115,7 +114,7 @@ if(isset($_POST['no_spm'])){
              <tr class="text-center"> 
                <td class="text-center"><?php echo count_id();?></td>
                <td><?php 
-                  if($_SESSION['user_id'] == 38){
+                  if($_SESSION['user_id'] == 38 OR $_SESSION['user_id'] == 51){
                     ?>
                     <a href="#" class="btn btn-primary" id="UploadSPM" data-toggle="modal" data-target="#uploadSPM" data-id='<?=$sale['id'];?>'><?php echo $sale['SPM']; ?></a>
                     <?php
@@ -124,9 +123,21 @@ if(isset($_POST['no_spm'])){
                   }
                   ?>
               </td>
-               <td><?php $jenis = find_by_id('jenis_pengajuan',$sale['id_jenis_pengajuan']); echo $jenis['keterangan']?>/<?php $jenis=find_by_id('jenis_bendahara',$sale['id_jenis_bendahara']); echo $jenis['keterangan']?></td>
-               <td class="text-center"><?php if($sale['status_verifikasi']==0){?><span class="label label-danger">Belom di Proses</span><?php }else{?>
-             <span class="label label-success">Sudah di Proses oleh <?php $user = find_by_id('users',(int)$sale['status_verifikasi']);echo $user['name'];?></span><?php } ?>
+               <td><?php
+               $verif = find_all_global('verifikasi',$sale['id'],'id_pengajuan');
+              // dd($verif);
+               $jenis = find_by_id('jenis_pengajuan',$sale['id_jenis_pengajuan']); echo $jenis['keterangan']?>/<?php $jenis=find_by_id('jenis_bendahara',$sale['id_jenis_bendahara']); echo $jenis['keterangan']?></td>
+               <td class="text-center">
+               
+               <?php 
+              // dd($verif[0]['status_pengajuan']);
+               if($verif[0]['status_pengajuan']==2){?>
+                   <span class="label label-danger">Ditolak oleh <?php $user = find_by_id('users',(int)$sale['status_verifikasi']);echo $user['name'];?></span>
+                <?php }else if($verif[0]['status_pengajuan']==0){?>
+                   <span class="label label-warning">Belum diproses </span>
+                <?php }else if($verif[0]['status_pengajuan']!=0){?> 
+                  <span class="label label-success">Sudah diproses oleh <?php $user = find_by_id('users',(int)$sale['status_verifikasi']);echo $user['name'];?></span>
+             <?php } ?>
 
              <?php $p = find_by_filed('pengajuan',$sale['id'],'id');  
                         if($p['verifikasi_kasubbag_v']==1){   ?>
@@ -137,7 +148,7 @@ if(isset($_POST['no_spm'])){
                           <span class="label label-warning"> Kasubbag belom verifikasi</span>
                         <?php } ?>
                         
-            <?php $verif = find_all_global('verifikasi',$sale['id'],'id_pengajuan');if($verif[0]['id_pengajuan']!=NULL){?>
+            <?php if($verif[0]['id_pengajuan']!=NULL){?>
           
                <a href="<?php 
                   if($sale['id_jenis_pengajuan']==1){
@@ -150,13 +161,15 @@ if(isset($_POST['no_spm'])){
                     echo "verif_LSjasprof.php?id=".$sale['id_nodin']."&v=".$sale['id'];
                   }else if($sale['id_jenis_pengajuan']==5){
                     echo "verif_LSkur50.php?id=".$sale['id_nodin']."&v=".$sale['id'];
+                  }else if($sale['id_jenis_pengajuan']==8){
+                    echo "verif_LSBop_b.php?id=".$sale['id_nodin']."&v=".$sale['id'];
                   }else{
                     echo "verif_GU.php?id=".$sale['id_nodin']."&v=".$sale['id'];
             
                   }
                 
                 ?>" class="btn btn-warning" style="margin: 20px;" target="_BLANK">Kekurangan</a>
-            <?php } ?>
+            <?php } ?>  
             </td>
             
             <td class="text-center"><?php if($sale['status_spm']==0){?><span class="label label-danger">Belom di Proses</span><?php }else{?>

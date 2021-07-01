@@ -16,6 +16,7 @@ $nodin = find_all_global('nodin',$_GET['id'],'id');
 $satker = find_all_global('satker',$nodin[0]['id_satker'],'id');
 
 $pengajuan= find_n_p_dp($nodin[0]['id']);
+$user['id_satker'] = $satker[0]['id'];
 
 ?>
 <?php //include_once('layouts/header.php'); ?>
@@ -36,24 +37,34 @@ $pengajuan= find_n_p_dp($nodin[0]['id']);
 </head>
 
 <body>
-  <br>
-	
-<p align="center">&nbsp;</p>
-<p align="center">&nbsp;</p>
-<p align="center">&nbsp;</p>
+	<img src="uploads/users/<?php if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){ echo "KOP_MODISES2.png";}else if($user['id_satker'] == 6){ echo "KOP_MODIAptika.png"; }else if($user['id_satker'] == 10){ echo "SDPPI.png";}else if($user['id_satker'] == 5){ echo "pusdiklat.png";}else{ echo "proserti.png";} ?>" width="750" height="140" alt="">
 <p align="center">&nbsp;</p>
 <p align="center"><strong>NOTA DINAS </strong></p>
-<p align="center"> No. : &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<?=$nodin[0]['no_nodin']?> /<?=$satker[0]['prefik']?>/KU.01.05/<?php echo $today = date('m' ); ?>/<?=date('Y');?> </p>
+<p align="center"> No. : &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<?=$nodin[0]['no_nodin']?> /<?=$satker[0]['prefik']?>/KU.01.05/<?php $tanggal=$nodin[0]['tanggal']; $has=explode("-",$tanggal); echo $has[1]; ?>/<?=$has[0];?> </p>
 <table width="100%" cellpadding="0" cellspacing="0" >
   <tr>
     <td width="173" valign="top"> Kepada Yth </td>
     <td width="24" valign="top"> : </td>
-    <td width="743" valign="top"> Kuasa Pengguna Anggaran Badan Litbang SDM</td>
+    <td width="743" valign="top"> 
+    <?php
+ //find_by_id('users',$_SESSION['user_id']); 
+    if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){ ?>
+        Pejabat Pembuat Komitmen Sekretariat Badan Litbang SDM
+      <?php }else{ ?>
+        Kuasa Pengguna Anggaran Badan Litbang SDM
+      <?php } ?>  
+    </td>
   </tr>
   <tr>
     <td width="173" valign="top">Dari</td>
     <td width="24" valign="top"> : </td>
-    <td width="743" valign="top"> Pejabat Pembuat Komitmen <?=$satker[0]['keterangan']?> </td>
+    <td width="743" valign="top"> 
+    <?php if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){ ?>
+        Koordinator <?=$satker[0]['keterangan']?>
+      <?php }else{ ?>
+        Pejabat Pembuat Komitmen <?=$satker[0]['keterangan']?> 
+    <?php } ?>
+    </td>
   </tr>
   <tr>
     <td width="173" valign="top">Lampiran </td>
@@ -68,7 +79,7 @@ $pengajuan= find_n_p_dp($nodin[0]['id']);
   <tr>
     <td width="173" valign="top"> Tanggal </td>
     <td width="24" valign="top"> : </td>
-    <td width="743" valign="top"><?php echo $today = date('j-m-y' ); ?> </td>
+    <td width="743" valign="top"><?php  echo tanggal_indo($nodin[0]['tanggal']); ?> </td>
   </tr>
   <tr>
     <td width="173" valign="top"> Sifat </td>
@@ -140,7 +151,13 @@ $pengajuan= find_n_p_dp($nodin[0]['id']);
             
           </td>
         <td width="188" valign="top" class="style24">&nbsp;</td>
-        <td width="330" valign="top" class="style24"><p>Pejabat Pembuat Komitmen <br>
+        <td width="330" valign="top" class="style24">
+        <p> <?php if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){ ?>
+          Koordinator
+        <?php }else{ ?>
+          Pejabat Pembuat Komitmen
+        <?php } ?>
+         <br>
         <?=$satker[0]['keterangan']?> </p>
             <p> <br>
               <br>

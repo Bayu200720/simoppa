@@ -290,10 +290,18 @@
                 }
 
             if($_GET['key'] === 'status_pengajuan'){
+              //dd($_SESSION);
+              $id_user=$_SESSION['user_id'];
                 $query  = "UPDATE verifikasi SET ";
-                $query .= "status_pengajuan = 1";
+                $query .= "status_pengajuan = $id_user ";
                 $query .= " WHERE id='{$pengajuan["id"]}'";
                 $result = $db->query($query);
+
+                $id_pengajuan = $_GET['idp'];
+                $update ="UPDATE `pengajuan` SET `status_verifikasi`=".$_SESSION['user_id']." WHERE `pengajuan`.`id` =".$id_pengajuan;
+                //dd($update);
+                $db->query($update);
+
                 $session->msg('s',' Berhasil di Proses');
                 if($user['user_level']==2){
                   $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']); 
@@ -308,6 +316,12 @@
                 $query .= "status_pengajuan = 0";
                 $query .= " WHERE id='{$pengajuan["id"]}'";
                 $result = $db->query($query);
+
+                $id_pengajuan = $_GET['idp'];
+                $update ="UPDATE `pengajuan` SET `status_verifikasi`= 0 WHERE `pengajuan`.`id` =".$id_pengajuan;
+                //dd($update);
+                $db->query($update);
+
                 $session->msg('s',' Berhasil di Proses');
                 if($user['user_level']==2){
                   $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']); 
@@ -656,6 +670,66 @@
                                                                               redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan'], false);
                                                                             }    
                                                                             }
+
+                                                                            if($_GET['key'] === 'sk_bsiswa'){
+                                                                              $query  = "UPDATE verifikasi SET ";
+                                                                              $query .= "sk_bsiswa = 1";
+                                                                              $query .= " WHERE id='{$pengajuan["id"]}'";
+                                                                              $result = $db->query($query);
+                                                                              $session->msg('s',' Berhasil di Proses');
+                                                                              if($user['user_level']==2){
+                                                                                $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']); 
+                                                                                redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan']);
+                                                                              }else{
+                                                                                $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']);
+                                                                                redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan'], false);
+                                                                              }    
+                                                                              }
+
+                                                                              if($_GET['key'] === 'bsk_bsiswa'){
+                                                                                $query  = "UPDATE verifikasi SET ";
+                                                                                $query .= "sk_bsiswa = 0";
+                                                                                $query .= " WHERE id='{$pengajuan["id"]}'";
+                                                                                $result = $db->query($query);
+                                                                                $session->msg('s',' Berhasil di Proses');
+                                                                                if($user['user_level']==2){
+                                                                                  $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']); 
+                                                                                  redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan']);
+                                                                                }else{
+                                                                                  $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']);
+                                                                                  redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan'], false);
+                                                                                }    
+                                                                                }
+
+                                                                                if($_GET['key'] === 'bukti_tf'){
+                                                                                  $query  = "UPDATE verifikasi SET ";
+                                                                                  $query .= "bukti_tf = 1";
+                                                                                  $query .= " WHERE id='{$pengajuan["id"]}'";
+                                                                                  $result = $db->query($query);
+                                                                                  $session->msg('s',' Berhasil di Proses');
+                                                                                  if($user['user_level']==2){
+                                                                                    $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']); 
+                                                                                    redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan']);
+                                                                                  }else{
+                                                                                    $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']);
+                                                                                    redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan'], false);
+                                                                                  }    
+                                                                                  }
+    
+                                                                                  if($_GET['key'] === 'bbukti_tf'){
+                                                                                    $query  = "UPDATE verifikasi SET ";
+                                                                                    $query .= "bukti_tf = 0";
+                                                                                    $query .= " WHERE id='{$pengajuan["id"]}'";
+                                                                                    $result = $db->query($query);
+                                                                                    $session->msg('s',' Berhasil di Proses');
+                                                                                    if($user['user_level']==2){
+                                                                                      $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']); 
+                                                                                      redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan']);
+                                                                                    }else{
+                                                                                      $jenis= find_by_id('jenis_pengajuan',$jenis_v['id_jenis_pengajuan']);
+                                                                                      redirect($jenis['link'].'.php?id='.$pengajuan['id_pengajuan'], false);
+                                                                                    }    
+                                                                                    }
 
  
 ?>

@@ -243,6 +243,7 @@ if(isset($_POST['cair'])){
 
   if(isset($_POST['upload_adk_spm'])) {
     $id = $_POST['id'];
+   
      $pengajuan = find_by_id('pengajuan',$id);
 
   $photo = new Media();
@@ -252,14 +253,14 @@ if(isset($_POST['cair'])){
            if($user['user_level']==5){
           redirect('detail_dokumen_ses.php', false);
        }else{
-       redirect('detail_dokumen_ses.php?id='.$pengajuan['id']);
+          redirect('detail_dokumen_ses.php?id='.$pengajuan['id']);
       }
    } else{
      $session->msg('d',join($photo->errors));
      if($user['user_level']==5){
           redirect('detail_dokumen_ses.php?id='.$pengajuan['id'], false);
        }else{
-       redirect('detail_dokumen_ses.php?id='.$pengajuan['id']);
+          redirect('detail_dokumen_ses.php?id='.$pengajuan['id']);
       }
    }
   
@@ -304,7 +305,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
         <div class="panel-heading clearfix">
           <strong>
             <span class="glyphicon glyphicon-th"></span>
-            <span>Detail Dokumen</span>
+            <span>Detail Dokumen SPM <?php echo $sales[0]['SPM']?></span>
           </strong>
           <div class="pull-right">
             <?php   if($user['user_level'] == 2 or $user['user_level'] == 7 ){?>
@@ -441,11 +442,14 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                     <?php }else{
                         
                         $v = find_by_filed('verifikasi',$sale['id'],'id_pengajuan');  
-                        if($v['status_pengajuan']==1){
+                        //dd($v['status_pengajuan']);
+                        if($v['status_pengajuan']==2){
                         ?>
-                        <span class="label label-success">Terverifikasi verifikator</span><br>
-                        <?php }else{ ?>
-                        <span class="label label-danger">Ditolak verifikator</span><br>
+                          <span class="label label-danger">Ditolak verifikator</span><br>                   
+                        <?php }else if($v['status_pengajuan']==0){ ?>
+                          <span class="label label-warning">Belum diverifikasi</span><br>
+                        <?php }else if($v['status_pengajuan']!=0){ ?>
+                          <span class="label label-success">Terverifikasi verifikator</span><br>
                         <?php } ?>
                         <br>
 
@@ -455,7 +459,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                         <?php }else if($p['verifikasi_kasubbag_v']==2){ ?>
                         <span class="label label-danger">Ditolak Kasubbag verifikator</span>
                         <?php }else{ ?>
-                          <span class="label label-warning"> Kasubbag belom verifikasi</span>
+                          <span class="label label-warning"> Kasubbag belum verifikasi</span>
                         <?php } ?>
                         <?php  $user = find_by_id('users',$_SESSION['user_id']); if($user['user_level'] == 2  or $user['user_level'] == 7){  ?>
                                 <a href="<?php $jenis= find_by_id('jenis_pengajuan',$sale['id_jenis_pengajuan']); echo $jenis['link'];?>.php?id=<?=$sale['id']?>" class="btn btn-success">Edit</a>
@@ -475,7 +479,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                     <?php }else if($sale['status_spm'] != 0 and $user['user_level'] == 3){ ?>          
                               <a href="batal_spm.php?id=<?=$sale['id']?>" class="btn btn-danger">Batal</a>
                       <?php }else if($sale['status_spm']==0 and $user['status_verifikasi'] == 0 ){?>
-                                <span class="label label-danger">Belom di Proses</span>
+                                <span class="label label-danger">Belum di Proses</span>
                       <?php }else{  ?>
                         <span class="label label-success">Sudah di Proses oleh <?php $user = find_by_id('users',(int)$sale['status_spm']);echo $user['name'];?></span>
                       <?php } ?>   
@@ -483,7 +487,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                 <td class="text-center"><?//=$sale['penolakan_kppn'];var_dump($sale); ?>
                       <?php $user = find_by_id('users',$_SESSION['user_id']);  
                           if($sale['status_spm'] == 0 ){ ?>
-                              <span class="label label-danger">Belom di proses</span>
+                              <span class="label label-danger">Belum di proses</span>
                       <?php }else if($user['user_level'] == 4 and $sale['penolakan_kppn'] == '' ){ ?>
                               <a href="#" class="btn btn-warning" id="penolakan"  data-toggle="modal" data-target="#PenolakanKPPN" data-id='<?=$sale['id'];?>' data-keterangan='<?=$sale['penolakan_kppn'];?>'>Input Kekurangan</a>
                       <?php }else if($user['user_level'] == 4 and $sale['penolakan_kppn'] != '' ){ ?>
@@ -495,7 +499,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                 <td class="text-center">
                       <?php $user = find_by_id('users',$_SESSION['user_id']);  
                           if($sale['status_spm'] == 0  ){ ?>
-                              <span class="label label-danger">Belom di proses oleh verifikator</span>
+                              <span class="label label-danger">Belum di proses oleh verifikator</span>
                       <?php }else if($user['user_level'] == 4 and $sale['status_kppn'] == 0 ){ ?>
                               <a href="update_kppn.php?id=<?=$sale['id']?>" class="btn btn-success">Proses</a> 
                         <?php }else if($user['user_level'] == 4 and $sale['status_kppn'] != 0 ){ ?>
@@ -503,7 +507,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                         <?php }else if($sale['status_kppn'] != 0){ ?>
                             <span class="label label-success">Diterima KPPN</span><br>
                         <?php }else if($sale['status_kppn'] == 0){ ?>
-                          <span class="label label-danger">Belom di proses petugas KPPN</span><br>
+                          <span class="label label-danger">Belum di proses petugas KPPN</span><br>
                         <?php }?> 
                   </td>
 
@@ -511,7 +515,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                 
                       <?php $user = find_by_id('users',$_SESSION['user_id']);  
                       if($sale['status_kppn']==0){ ?>
-                        <span class="label label-danger">belom di validasi oleh petugas pengirim SPM ke KPPN</span>
+                        <span class="label label-danger">belum di validasi oleh petugas pengirim SPM ke KPPN</span>
                       <?php }else if($sale['status_sp2d']==0 and ($user['user_level']== 5 or $user['user_level']== 4)){ ?>
                             <a href="update_sp2d.php?id=<?=$sale['id']?>" class="btn btn-success">Proses</a>  
                       <?php }else if($sale['status_sp2d']!=0 and ($user['user_level']== 5 or $user['user_level']== 4)){ ?>
@@ -523,7 +527,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                 <td class="text-center">
                     <?php $user = find_by_id('users',$_SESSION['user_id']);  
                       if($sale['status_sp2d']==0){ ?>
-                        <span class="label label-danger">SP2D belom di Proses</span>
+                        <span class="label label-danger">SP2D belum di Proses</span>
                       <?php }else if($sale['status_pengambilan_uang']==0 and $user['user_level']== 5){ ?>
                         <form action="" method="post">
                             <input type="hidden" name="id" value="<?=$sale['id']?>">

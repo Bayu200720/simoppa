@@ -57,6 +57,32 @@ $sales = find_all_global('pengajuan_pum',$user['tahun'],'tahun');
 
  }
 
+
+ if($_GET['status']=='tolak'){
+  $id   = remove_junk($db->escape($_GET['id']));
+    $query  = "UPDATE pengajuan_pum SET ";
+    $query .=" status = 3 ";
+    $query .=" WHERE id='{$id}'";
+    //var_dump($query);exit();
+ 
+    if($db->query($query)){
+      $session->msg('s',"Pengajuan di tolak ");
+      if($user['user_level']==2){
+       redirect('pengajuan_pum_ben.php', false);
+      }else{
+      redirect('pengajuan_pum_ben.php', false);
+      }
+    } else {
+      $session->msg('d',' Sorry failed to Updated!');
+      if($user['user_level']==2){
+       redirect('pengajuan_pum_ben.php', false);
+     }else{
+        redirect('pengajuan_pum_ben.php', false);
+     }
+    }
+  }
+
+
  
 
 
@@ -278,13 +304,19 @@ if($_GET['status']=='delete_nodin'){
                 </td>
                 <td class="text-center">
 
-                <?php if($sale['status_pencairan'] == 1){
+                <?php 
+                  if($sale['status']== '3'){ 
+                    ?>
+                    <a class="btn btn-danger" disabled>Ditolak</a>
+                    <?php }else{
+                    if($sale['status_pencairan'] == 1){
                                 $pengajuan = find_all_global('pengajuan_pum',$sale['id'],'id'); 
                         ?>
                         <a class="btn btn-success" disabled>Sudah Diproses</a>
                       <?php }else if($sale['status_pencairan'] == 0){?>
                         <a onclick="add_panjar(<?php echo $sale['id_satker']?>,'<?php echo $sale['jenis_pengajuan']?>',<?php echo $sale['id']?>);" class="btn btn-warning" >Proses</a>
-                      <?php } ?>
+                        <a href="pengajuan_pum_ben.php?id=<?php echo $sale['id'];?>&status=tolak" class="btn btn-danger">Tolak</a>
+                      <?php }} ?>
                 
                 </td>
                 <td class="text-center">

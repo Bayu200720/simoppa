@@ -105,7 +105,7 @@
                       <option value="">Pilih Jenis Pengajuan</option>
                       <?php $user=find_by_id('users',$_SESSION['user_id']); $jenis = find_all_global('akun',$user['id_satker'],'id_satker');
                     foreach ($jenis as $j): ?>
-                      <option value="<?php echo (int)$j['id'] ?>" <?php if($j['id']==$detail['id_akun']){echo "selected";}?>><?php echo $j['keterangan'] ?>-<?php echo $j['mak'] ?></option>
+                      <option value="<?php echo (int)$j['id'] ?>" <?php if($j['id']==$detail['id_akun']){echo "selected";}?>><?php echo $j['mak'] ?>-<?php echo $j['keterangan'] ?></option>
                     <?php endforeach; ?>
                 </select>
                </div>

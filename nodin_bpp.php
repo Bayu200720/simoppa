@@ -309,9 +309,9 @@ if($_GET['status']=='delete_nodin'){
 
                 <td class="text-center">
                       <div class="btn-group">
-                      <a onclick="Tampil(<?=$sale['id'];?>)" class="btn btn-success btn-xs"  title="Detail nodin">
+                      <!-- <a onclick="Tampil(<?=$sale['id'];?>)" class="btn btn-success btn-xs"  title="Detail nodin">
                           <span class="glyphicon glyphicon-eye-open"></span>
-                        </a>
+                        </a> -->
                         <?php if($sale['approvel_atasan'] != 1){ ?>
                         
                         <a href="#" title="Edit" <?php $nodin = find_by_id('nodin',$sale['id']);?> class="btn btn-warning btn-xs" id="editnodin" data-toggle="modal"  title="Edit nodin"
@@ -438,11 +438,28 @@ if($_GET['status']=='delete_nodin'){
         <label for="exampleInputEmail1">Jenis Pengajuan</label>
                 <select class="form-control" name="id_jenis" required>
                       <option value="">Pilih Jenis Pengajuan</option>
+                <?php 
+                  $user = find_by_id('users',$_SESSION['user_id']); 
+                if($user['id'] == 7 ){ ?>
                       <?php $jenis = find_all('jenis');?>
                     <?php  foreach ($jenis as $j): ?>
                       <option value="<?php echo (int)$j['id'] ?>">
-                        <?php echo $j['keterangan'] ?></option>
+                        <?php echo $j['keterangan']; ?></option>
                     <?php endforeach; ?>
+                      
+              <?php $user = find_by_id('users',$_SESSION['user_id']);
+                }else if($user['id_satker'] == 1 ||$user['id_satker'] == 2 || $user['id_satker'] == 3 || $user['id_satker'] == 4 ||$user['id_satker'] == 14){ ?>
+                        <?php $jenis = find_by_id('jenis',1); ?>
+                      <option value="<?php echo (int)$jenis['id'] ?>">
+                        <?php echo $jenis['keterangan'];?></option>
+           
+                 <?php }else{?>
+                        <?php $jenis = find_all('jenis');?>
+                        <?php  foreach ($jenis as $j): ?>
+                          <option value="<?php echo (int)$j['id'] ?>">
+                            <?php echo $j['keterangan'] ?></option>
+                        <?php endforeach;  
+                    }?>
                 </select>
        </div>
       </div>

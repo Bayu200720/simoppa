@@ -13,6 +13,8 @@
       page_require_level(6); 
     }else if($user['user_level'] == 5){ //echo "3";exit();
       page_require_level(5); 
+    }else if($user['user_level'] == 8){ //echo "3";exit();
+      page_require_level(8);
     }else{
       page_require_level(3);
     }  
@@ -163,6 +165,31 @@ if($_GET['s']=='ok'){
 
     if($db->query($update)){
       $session->msg('s',"Sukses verifikasi di terima ");
+      if($user['user_level']==2){
+       redirect('detail_pengajuan.php?id='.$verif['id_pengajuan'], false);
+      }else{
+      redirect('detail_pengajuan.php?id='.$verif['id_pengajuan'], false);
+      }
+    } else {
+      $session->msg('d',' Sorry failed to Insert!');
+      if($user['user_level']==2){
+       redirect('detail_pengajuan.php?id='.$verif['id_pengajuan'], false);
+     }else{
+        redirect('detail_pengajuan.php?id='.$verif['id_pengajuan'], false);
+     }
+    }
+}
+
+if($_GET['s']=='vtolak'){
+ // dd($_GET);
+
+  $verif = find_by_id('verifikasi',$_GET['id']);
+
+  $id_verif = $_GET['id'];
+  $update ="UPDATE `verifikasi` SET `status_pengajuan`= 2 WHERE `id` =".$id_verif;
+   // dd($update);
+    if($db->query($update)){
+      $session->msg('s',"Berhasil di batalkan ");
       if($user['user_level']==2){
        redirect('detail_pengajuan.php?id='.$verif['id_pengajuan'], false);
       }else{
@@ -342,12 +369,14 @@ if($_GET['s']=='tolak'){
                <td class="text-center"><?php echo $sale['keterangan'];  ?></td>
                <td class="text-center"><?php if($sale['file_pj']==""){}else{?><a class="btn btn-success" target ="_BLANK" href="uploads/sptjb_pum/<?php echo $sale['file_pj'];  ?>">Preview</a><?php } ?></td>
                <td class="text-center">
-               <?php  if($user['user_level'] != 6 and $user['user_level'] != 3 and $user['user_level'] != 4 and $user['user_level'] != 5 ){?>
+               <?php  
+              if( $user['user_level']!= '8'){
+               if($user['user_level'] != 6 and $user['user_level'] != 3 and $user['user_level'] != 4 and $user['user_level'] != 5 ){?>
                    <?php if($sale['keterangan_verifikasi']==''){ ?><a href="#" class="btn btn-primary" id="kekurangan"  data-toggle="modal" data-target="#PenolakanKPPN" data-id='<?=$sale['id'];?>' data-verifikasi='<?=$sale['keterangan_verifikasi'];?>'>Keterangan Verifikasi</a>
                    <?php }else{ ?><a href="#" class="btn btn-warning" id="kekurangan"  data-toggle="modal" data-target="#PenolakanKPPN" data-id='<?=$sale['id'];?>' data-verifikasi='<?=$sale['keterangan_verifikasi'];?>'><?=$sale['keterangan_verifikasi'];?></a><?php } ?>
                <?php  }else{ ?>
                 <span class="label label-danger"><?=$sale['keterangan_verifikasi'];?></span>
-               <?php } ?>
+               <?php }} ?>
                </td>
                <td class="text-center">
                <?php if($user['user_level'] != 2 and $user['user_level'] != 3 and $user['user_level'] != 4 and $user['user_level'] != 5 and $user['user_level'] != 7){?>
@@ -396,12 +425,14 @@ if($_GET['s']=='tolak'){
                 <th class="text-center"> 
                   <?php   if($user['user_level'] != 6 and $user['user_level'] != 3 and $user['user_level'] != 4 and $user['user_level'] != 5 and $user['user_level'] != 7){?>
                       <?php $v=find_all_global('verifikasi',$_GET['id'],'id_pengajuan');
+                       if( $user['user_level']!= '8'){
                         if($v[0]['status_pengajuan']==''){?>
                            <a href="detail_pengajuan.php?id=<?=$v[0]['id']?>&s=ok" class="btn btn-success">Terima</a>
+                           <a href="detail_pengajuan.php?id=<?=$v[0]['id']?>&s=vtolak" class="btn btn-danger">Tolak</a>
                            
                         <?php }else{ ?>
                           <a href="detail_pengajuan.php?id=<?=$v[0]['id']?>&s=batal" class="btn btn-danger">Batalkan</a>
-                        <?php } ?>
+                        <?php }} ?>
                   <?php } ?>
                 </th>
                 <th class="text-center">  </th>
