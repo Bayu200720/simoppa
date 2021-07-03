@@ -29,6 +29,29 @@ if($_GET['status']==='deleteKc'){
 
 }
 
+
+if(isset($_POST['etgl'])){
+ 
+  $update ="UPDATE `k_cair` SET `time_add` = '{$_POST['waktu']}' WHERE `id` = {$_POST['id']}";
+  $hsl=$db->query($update);
+if($hsl){
+    $session->msg("s","Time add Updated.");
+    if($user['user_level']==2){
+            redirect('cetakP.php', false);
+        }else{
+    redirect('cetakP.php');
+      }
+} else {
+    $session->msg("d","Update failed.");
+        if($user['user_level']==2){
+            redirect('cetakP.php', false);
+        }else{
+    redirect('cetakP.php');
+        }
+}
+
+}
+
 if(isset($_POST['update_sp2d'])){
   $req_fields = array('sp2d', 'id' );
   validate_fields($req_fields);
@@ -89,7 +112,9 @@ $sales = find_all('k_cair');
              <?php foreach ($sales as $sale):?>
              <tr>
                <td class="text-center"><?php echo count_id();?></td>
-               <td class="text-center"><?php echo $sale['time_add'];?></td>
+               <td class="text-center">
+               <a href="#" class="btn btn-primary" id="eTgl" data-toggle="modal" data-target="#editTgl" data-id='<?=$sale['id'];?>' data-waktu='<?=$sale['time_add'];?>'> <?php echo $sale['time_add'];?></a> 
+               </td>
                <td class="text-center"><?php $t=sumStatus($sale['id']); echo rupiah($t['jum']);?></td>
                <td class="text-center">
                      <a href="cetaktt1.php?id=<?=$sale['id'];?>"  class="btn btn-primary btn-xs"  title="Cetak" title="Cetak" data-toggle="tooltip" target="_BLANK"><span class="glyphicon glyphicon-print"></span> 
@@ -107,6 +132,36 @@ $sales = find_all('k_cair');
       </div>
     </div>
   </div>
+
+
+  
+<!-- Modal edit Waktu-->
+<div class="modal fade" id="editTgl" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Waktu</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="" method="POST">
+      <div class="modal-body">
+       <div class="form-group">
+        <label for="exampleInputEmail1">Waktu</label>
+        <input type="text" class="form-control" id="waktu" name="waktu" placeholder="waktu">
+        
+        <input type="hidden" class="form-control" id="id" name="id" >
+       </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" name="etgl" value="Update">
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
 
   <!-- Modal input sp2d-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -189,4 +244,6 @@ $sales = find_all('k_cair');
     </div>
   </div>
 </div>
+
+
 <?php include_once('layouts/footer.php'); ?>

@@ -1,3 +1,9 @@
+$(document).on('click','#eTgl',function(){
+  var id=$(this).data('id');
+  var waktu=$(this).data('waktu');
+  $('.modal-body #id').val(id);
+  $('.modal-body #waktu').val(waktu);     
+});
 $(document).on('click','#komentar',function(){
   var id=$(this).data('id');
   $('.modal-body #id').val(id);   

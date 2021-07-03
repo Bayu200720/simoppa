@@ -1,6 +1,7 @@
 <?php
   $page_title = 'All Pengajuan';
   require_once('includes/load.php');
+  include "phpqrcode/qrlib.php";
   // Checkin What level user has permission to view this page
    page_require_level(6);
 
@@ -200,7 +201,7 @@ table td {padding-left:3px;}
 
       <table width="379" border="1" cellpadding="0" cellspacing="0">
         <tr>
-          <td width="111" rowspan="2">Status dokumen </td>
+          <td width="111" rowspan="2">Status dokumen</td>
           <td width="88">Terima</td>
           <td width="172">&nbsp;<center><?php if($verifikasi[0]['status_pengajuan']==1){echo "V";}?></center></td>
         </tr>
@@ -217,7 +218,18 @@ table td {padding-left:3px;}
       <br />
       PPK/BPP/ WBPP / PUM</p>
       <p align="center" class="style28"><br />
-      <img width="100px" height="100px" src="uploads/users/<?php echo $satker[0]['ttd'];?>.png" alt="">
+        <?php
+           
+            $nama = "Disahkan Oleh :".$satker[0]['ppk']." NIP.".$satker[0]['nip_ppk'];
+                 
+                  $folder = "qrcode/";
+                  $qual = "H";
+                  $nm_file= "qr".$satker[0]['nip'].".png";
+                  $ukuran = 4;
+                  $padding = 0;
+                QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); 
+                ?>
+                <img src="qrcode/<?=$nm_file;?>" alt="" width="100" >
         <br />
       </p>
       <p align="center" class="style28">(____________________)</p>      </td>
@@ -225,8 +237,18 @@ table td {padding-left:3px;}
       Tgl<br />
       Kasubag Verifikasi</p>
       <p align="center" class="style28"><br />
-      <?php if($pengajuan[0]['verifikasi_kasubbag_v']==1){?>  
-           <img width="100px" height="100px" src="uploads/users/hendri.png" alt="">
+      <?php if($pengajuan[0]['verifikasi_kasubbag_v']==1){
+
+                $user = find_all_global('users',7,'user_level');
+                 $nama = "Disahkan Oleh :".$user[0]['name']." NIP.".$user[0]['nip'];
+                  $folder = "qrcode/";
+                  $qual = "H";
+                  $nm_file= "qr".$satker[0]['nip_ppk'].".png";
+                  $ukuran = 4;
+                  $padding = 0;
+                QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); 
+        ?>
+                <img src="qrcode/<?=$nm_file;?>" alt="" width="100" >
       <?php } ?>
         <br />
       </p>
@@ -235,9 +257,24 @@ table td {padding-left:3px;}
       Tgl:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Pukul :<br />
     Verifikator Keuangan</p>
       <p align="center" class="style28"><br />
-      <?php if($verifikasi[0]['status_pengajuan']==1){?>
+      <?php if($pengajuan[0]['status_verifikasi']!=0){?>
+        <?php 
+                  $user = find_all_global('users',$pengajuan[0]['status_verifikasi'],'id');
+                  // dd($user);
+                  $nama = "Disahkan Oleh :".$user[0]['name']." NIP.".$user[0]['nip'];
+                  $folder = "qrcode/";
+                  $qual = "H";
+                  $nm_file= "qr".$user[0]['nip'].".png";
+                  $ukuran = 4;
+                  $padding = 0;
+                QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); 
+                ?>
+                <img src="qrcode/<?=$nm_file;?>" alt="" width="100">
+      
         <?php $user= find_by_id('users',$pengajuan[0]['status_verifikasi']);?>
-        <img width="100px" height="100px" src="uploads/users/<?=$user['ttd']?>.png" alt="">
+
+
+      
       <?php } ?>
         <br />
         <br>

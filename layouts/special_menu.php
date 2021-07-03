@@ -25,6 +25,9 @@
       <ul class="nav submenu">
          <li><a href="pengajuan_verif.php">Manage Pengajuan</a> </li>
      </ul>
+     <ul class="nav submenu">
+         <li><a href="verifed.php">Terverifikasi</a> </li>
+     </ul>
   </li>
   <li>
     <a href="edit_account.php" class="submenu-toggle">
