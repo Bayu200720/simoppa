@@ -247,22 +247,13 @@ if(isset($_POST['update_sp2d'])){
                       <td class="text-center"><?php $nodin=find_by_id('nodin',$sale['id_nodin']);$jenis=find_by_id('jenis',$nodin['id_jenis']); echo $jenis['keterangan']?> </td>
                       <td class="text-center" ><?php $nodin=find_by_id('nodin',$sale['id_nodin']);$satker=find_by_id('satker',$nodin['id_satker']); echo $satker['keterangan']?></td>
                       <td class="text-center"><?php $nodin= find_by_id('nodin',$sale['id_nodin']);echo $nodin['tanggal']; ?></td>
-                      <td class="text-center" ><?php $tp=find_NominalPengajuan($sale['id']);echo rupiah($tp['jum']);?></td>
+                      <td class="text-center" ><?php $tp=find_NominalPengajuan($sale['id']); $jumlah=$tp['jum']-($tp['pph']+$tp['ppn']); echo rupiah($jumlah);?></td>
                       <td class="text-center" >
                           <?php if($sale['status_sp2d'] == 0){
                                   echo "<span class='glyphicon glyphicon-remove-circle btn-danger'></span>Belom Proses ";
                               }else{
                                   echo "<span class='glyphicon glyphicon-ok-circle btn-success'></span>Telah di Proses ";
                               }	             		
-                          ?>
-                         <a href="histori.php?id=<?=$sale['id']?>" class="btn btn-primary">Histori</a>
-                        <?php 
-                            $user=find_by_id('users',$_SESSION['user_id']); 
-                          
-                      $hsl = find_count_global('histori',$sale['id'],'id_pengajuan'); 
-                                  if($hsl[0]['jml'] > 0){
-                                    echo '<span class="badge">'.$hsl[0]['jml'].'</span>';
-                                    }
                           ?>  
 
                      </td>
@@ -276,11 +267,12 @@ if(isset($_POST['update_sp2d'])){
                           </div>
                       </td>
                     </tr>
-                    <?php $tot+=$tp['jum']; endforeach;?>
+                    <?php $tot+=$jumlah; endforeach;?>
                   </tbody>
                   <tfoot>
                   <tr>
                         <th class="text-center" >#</th>
+                        <th class="text-center" >  </th>
                         <th class="text-center" >  </th>
                         <th class="text-center" >  </th>
                         <th class="text-center" >  </th>

@@ -109,7 +109,9 @@
                   Jenis Pengajuan</span>      
                   <select class="form-control" name="id_akun" required>
                       <option value="">Pilih Jenis Pengajuan</option>
-                      <?php $user=find_by_id('users',$_SESSION['user_id']); $jenis = find_all_global_tahun('akun',$user['id_satker'],'id_satker',$user['tahun']);//var_dump($jenis);exit();?>
+                      <?php $user=find_by_id('users',$_SESSION['user_id']); $jenis = find_all_global_tahun('akun',$user['id_satker'],'id_satker',$user['tahun']);
+                     //dd($user['id_satker']);
+                      ?>
                     <?php  foreach ($jenis as $j): ?>
                       <option value="<?php echo (int)$j['id'] ?>">
                         <?php echo $j['mak'] ?>-<?php echo $j['keterangan'] ?></option>

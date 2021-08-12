@@ -58,7 +58,7 @@ function find_nodin_j_pengajuan_kv($tahun)
 function find_nodin_j_pengajuan_spm($spm)
 {
   global $db;
-  return find_by_sql("SELECT p.upload, p.file_spm, p.file_sp2d, p.upload_kekurangan, p.upload_pertanggungjawaban FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.SPM='{$spm}' ORDER BY p.id DESC");
+  return find_by_sql("SELECT p.upload, p.file_spm, p.file_sp2d, p.upload_kekurangan, p.upload_pertanggungjawaban,p.upload_adk,p.upload_adk_spm FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.SPM='{$spm}' ORDER BY p.id DESC");
    
 }
 
@@ -212,7 +212,9 @@ function find_all_global_tahun($table,$id,$key,$tahun) {
   global $db;
   if(tableExists($table))
   {
+  
     return find_by_sql("SELECT * FROM ".$db->escape($table)." WHERE {$db->escape($key)} ='{$db->escape($id)}' AND tahun ='{$tahun}' ORDER BY id DESC");
+    
   }
 }
 
@@ -369,7 +371,7 @@ function find_NominalPengajuan($id)
   global $db;
   $id = (int)$id;
     
-    $sql = $db->query("SELECT SPM,tanggal,id_akun,id_satker,sum(nominal) as jum FROM `detail_pengajuan` dp,pengajuan p,nodin n WHERE p.id=dp.id_pengajuan and id_pengajuan= {$id} and n.id = p.id_nodin");
+    $sql = $db->query("SELECT SPM,tanggal,id_akun,id_satker,sum(nominal) as jum,sum(ppn) as ppn, sum(pph) as pph FROM `detail_pengajuan` dp,pengajuan p,nodin n WHERE p.id=dp.id_pengajuan and id_pengajuan= {$id} and n.id = p.id_nodin");
           if($result = $db->fetch_assoc($sql))
             return $result;
           else

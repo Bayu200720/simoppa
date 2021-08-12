@@ -26,7 +26,7 @@ if($_GET['p']=='update'){
     $query .=" approvel_atasan= 1";
     $query .=" WHERE id='{$id}'";
   //echo $query;exit();
-  	
+    
     if($db->query($query)){
 
       if($_SESSION['user_id'] == 43 or $_SESSION['user_id'] == 50  or $_SESSION['user_id'] == 40 or $_SESSION['user_id'] == 37 or $_SESSION['user_id'] == 30){
@@ -38,7 +38,7 @@ if($_GET['p']=='update'){
         $query1 .=" status_pengajuan= 1";
         $query1 .=" WHERE id='{$id}'"; 
       } 
-        //dd($query1);
+
         $db->query($query1);
         $from = $user['email'];    
         $to = "bayukominfo20@gmail.com";    
@@ -48,7 +48,7 @@ if($_GET['p']=='update'){
         mail($to,$subject,$message, $headers);    
         echo "Pesan email sudah terkirim.";
 
-      $session->msg('s',"Telah di Approval ");
+      $session->msg('s',"Success Approved ");
      // ini_set( 'display_errors', 1 );   
    // error_reporting( E_ALL );    
       if($user['user_level']==8){
@@ -115,7 +115,7 @@ if($_GET['p']=='batal'){
           <div class="pull-right">
           <a href="allSPM.php" class="btn btn-primary" id="nodin"></span>ALL SPM</a>
             <?php if($pengajuan[0]['status'] == 0){?>
-        		 
+             
             <?php }else{ ?>
                   <span class="btn btn-danger glyphicon glyphicon-warning-sign">upload pertanggungjawaban terlebih dahulu</span>
             <?php } ?>
@@ -149,27 +149,40 @@ if($_GET['p']=='batal'){
                 <a href="cetakNodin.php?id=<?=$sale['id']?>" class="btn btn-primary" target="_BLANK"><span class="glyphicon glyphicon-print"></span></a>
                 </td>
                 <td class="text-center">
-           
-                      <?php if($sale['approvel_atasan'] == 1){
+                    <?php $pengajuan = find_all_global('nodin',$sale['id'],'id'); 
+                          if($_SESSION['user_id'] == 38){  ?>
+
+                            <?php 
+                           if($sale['approvel_atasan'] == 1){
+                                if($pengajuan[0]['status_pengajuan'] == 1){
                                 $pengajuan = find_all_global('nodin',$sale['id'],'id'); 
-                        ?>
-                        <a onclick="return confirm('Apakah anda yakin untuk membatalkan Approval?');" href="nodin_pimpinan.php?id=<?=$sale['id']?>&key=ajukan&p=batal" class="btn btn-success" <?php if($pengajuan[0]['status_verifikasi'] != 0){?> disabled <?php } ?>>Sudah Diapproval</a>
-                      <?php }else if($sale['approvel_atasan'] == 2){ ?>
-                        <a onclick="return confirm('Apakah anda yakin untuk Approvel?');" href="nodin_pimpinan.php?id=<?=$sale['id']?>&key=ajukan&p=update" class="btn btn-primary">Approval</a>
+                              ?>
+                              <a onclick="return confirm('Apakah anda yakin untuk membatalkan Approvel?');" href="nodin_pimpinan.php?id=<?=$sale['id']?>&key=ajukan&p=batal" class="btn btn-success" <?php if($pengajuan[0]['status_verifikasi'] != 0){?> disabled <?php } ?>>Approved</a>
+                            <?php }else{ ?>
+                              <a onclick="return confirm('Apakah anda yakin untuk Approvel?');" href="nodin_pimpinan.php?id=<?=$sale['id']?>&key=ajukan&p=update" class="btn btn-primary">Approval</a>
+                            <?php }} ?>
+
+                    <?php
+                          }else{
+                            ?>
+                              <?php if($sale['approvel_atasan'] == 1){
+                                $pengajuan = find_all_global('nodin',$sale['id'],'id'); 
+                              ?>
+                              <a onclick="return confirm('Apakah anda yakin untuk membatalkan Approvel?');" href="nodin_pimpinan.php?id=<?=$sale['id']?>&key=ajukan&p=batal" class="btn btn-success" <?php if($pengajuan[0]['status_verifikasi'] != 0){?> disabled <?php } ?>>Approved</a>
+                            <?php }else if($sale['approvel_atasan'] == 2){ ?>
+                              <a onclick="return confirm('Apakah anda yakin untuk Approvel?');" href="nodin_pimpinan.php?id=<?=$sale['id']?>&key=ajukan&p=update" class="btn btn-primary">Approval</a>
+                            <?php } ?>
+
                       <?php } ?>
+           
+                      
                 
                 </td>
               
 
                 <td class="text-center">
                       <div class="btn-group">
-                      <!-- <a onclick="Tampil(<?=$sale['id'];?>)" class="btn btn-success btn-xs"  title="Detail nodin">
-                          <span class="glyphicon glyphicon-eye-open"></span>
-                        </a>
-                        <a href="#" title="Edit" <?php $nodin = find_by_id('nodin',$sale['id']);?> class="btn btn-warning btn-xs" id="editnodin" data-toggle="modal"  title="Edit nodin"
-                        data-target="#UpdateNodinPengajuan" data-id='<?=$nodin['id'];?>' data-tanggal='<?=$nodin['tanggal'];?>' data-pp='<?=$nodin['p_pengajuan'];?>' data-no_nodin='<?=$nodin['no_nodin'];?>'>
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        </a> -->
+                    
                         <a href="pengajuan_bpp.php?id=<?php echo (int)$sale['id'];?>" class="btn btn-primary btn-xs"  title="Detail nodin" data-toggle="tooltip">
                           <span class="glyphicon glyphicon-eye-open"></span>
                         </a>

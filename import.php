@@ -198,6 +198,60 @@ if(isset($_POST["Import_detail"])){
     }
   }   
 
+  if(isset($_POST["Import_dataPUM"])){
+
+  
+    $allowedExts = array("gif", "jpeg", "jpg", "png","csv");
+    $extension = end(explode(".", $_FILES["file"]["name"]));
+   // echo $extension; echo $_FILES["file"]["type"]; exit();
+    if (($_FILES["file"]["size"] < 20000)
+    && in_array($extension, $allowedExts)){
+
+            $filename=$_FILES["file"]["tmp_name"];    
+            if($_FILES["file"]["size"] > 0)
+            {
+                $file = fopen($filename, "r");
+            
+                while (($getData = fgetcsv($file, 10000, ",")) !== FALSE)
+                {
+                    $hasil[]=$getData;
+                     
+                }
+               // echo count($has)
+                for($i=1;$i<count($hasil);$i++){
+                    $akun=find_all_global('akun',$hasil[$i][4],'mak');
+                    $sql = "INSERT into detail_pengajuan (no_sptjb,nominal,pph,ppn,id_pencairan,id_akun,tanggal_dp) 
+                        values ('".$hasil[$i][0]."','".$hasil[$i][1]."','".$hasil[$i][2]."','".$hasil[$i][3]."','".$_POST['id']."','".$akun[0]['id']."','".$hasil[$i][5]."')";
+                   //dd($sql);
+                   // echo $sql;echo "<br>";exit();
+                    $result= $db->query($sql);
+                  //echo $sql; echo "<br>";//exit();
+                }
+                if($result){
+                    $session->msg('s',"Berhasil Import ");
+                    if($user['user_level']==6){
+                    redirect('detail_pengajuan_pum.php?id='.$_POST['id'], false);
+                    }else{
+                    redirect('detail_pengajuan_pum.php?id='.$_POST['id'], false);
+                    }
+                } else {
+                    $session->msg('d',' Sorry failed to Import!');
+                    if($user['user_level']==6){
+                    redirect('detail_pengajuan_pum.php?id='.$_POST['id'], false);
+                    }else{
+                    redirect('detail_pengajuan_pum.php?id='.$_POST['id'], false);
+                    }
+                }
+                
+               // var_dump($hasil);
+                fclose($file); 
+            }
+    }else{
+        $session->msg('d',' Format File CSV Only!');
+        redirect('detail_pengajuan_pum.php?id='.$_POST['id'], false);
+    }
+  }   
+
 
   if(isset($_POST["ImportMAK"])){
     

@@ -261,6 +261,7 @@ if($_GET['status']=='delete_nodin'){
             <thead>
               <tr>
                 <th class="text-center" >#</th>
+                <th class="text-center" > SPP</th>
                 <th class="text-center" > Tanggal</th>
                 <th class="text-center" > Jenis </th>
                 <th class="text-center" > Pegawai Pengajuan </th>
@@ -274,6 +275,17 @@ if($_GET['status']=='delete_nodin'){
              <?php foreach ($sales as $sale):?>
              <tr >
                <td class="text-center"><?php echo count_id();?></td>
+               <td class="text-center">
+                <select class="form-control" name="id_jenis" required>
+                        
+                        <?php $jenis = find_all_global('pengajuan',$sale['id'],'id_nodin');?>
+                      <?php  foreach ($jenis as $j): ?>
+                        <option value="<?php echo (int)$j['id'] ?>">
+                          <?php echo $j['SPM'] ?></option>
+                      <?php endforeach; ?>
+                  </select>
+               
+               </td>
                <td class="text-center"><?php echo $sale['tanggal']; ?></td>
                <td class="text-center"><?php $jenis = find_by_id('jenis',$sale['id_jenis']); echo $jenis['keterangan'];  ?></td>
         

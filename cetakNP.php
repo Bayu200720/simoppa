@@ -48,7 +48,7 @@ $pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pu
   <tr>
     <td width="173" valign="top"> Kepada Yth </td>
     <td width="24" valign="top"> : </td>
-    <td width="743" valign="top"> Kuasa Pengguna Anggaran Badan Litbang SDM</td>
+    <td width="743" valign="top"> Pejabat Pembuat Komitmen Badan Litbang SDM</td>
   </tr>
   <tr>
     <td width="173" valign="top">Dari</td>
@@ -169,7 +169,7 @@ $pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pu
       </tr>
       <tr>
         <td height="54" class="style24">&nbsp;</td>
-        <td class="style24">Kepala Bagian Keuangan Badan Litbang SDM </td>
+        <td class="style24">Koordinator Keuangan Badan Litbang SDM </td>
         <td class="style24">&nbsp;</td>
         <td class="style24">&nbsp;</td>
       </tr>
@@ -182,11 +182,6 @@ $pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pu
   </tr>
 </table>
   <br><br><br>
-  <table border="1" cellspacing="0.5" >
-    <tr>
-      <td> FR.02&nbsp;Ed.01&nbsp;Rev.00</td>
-      
-    </tr>
-  </table>
+  
 </body>
 </html>

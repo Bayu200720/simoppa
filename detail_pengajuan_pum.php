@@ -49,6 +49,9 @@ if($_GET['status']=='bj'){
             <span class="glyphicon glyphicon-th"></span>
             <?php $user=find_by_id('users',$_SESSION['user_id']);  if( $user['user_level']== '6'){?>
             <span><a href="nodin_bpp.php">All Nodin</a> / <a href="pengajuan_bpp.php?id=<?=$sales1[0]['id_nodin']?>">All Pengajuan</a> /<a href="detail_pengajuan.php?id=<?=$_GET['id']?>">All Detail Pengajuan</a></span>
+
+           
+              
           <?php }else{ ?>
               <span> <a href="pengajuan_verif.php">All Pengajuan</a> / All Detail Pengajuan</span>
           <?php } ?>
@@ -58,12 +61,13 @@ if($_GET['status']=='bj'){
 
               
               <?php $user=find_by_id('users',$_SESSION['user_id']);  if( $user['user_level']== '6' or $user['user_level']== '5'){?>
+
                 <a href="add_detail_pengajuan_pum.php?id=<?=$_GET['id'];?>" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Add</a>
+
+              <a href="#" class="btn btn-success" id="import"  data-toggle="modal" data-target="#UploadCSV" data-id="<?=$_GET['id'];?>" ><span class="glyphicon glyphicon-upload"></span> <img src="uploads/users/excel.png" height="20"/></a>
               
-              <!--<a href="#" class="btn btn-success" id="import"  data-toggle="modal" data-target="#UploadCSV" data-id="<?=$_GET['id'];?>" ><span class="glyphicon glyphicon-upload"></span> <img src="uploads/users/excel.png" height="20"/></a>
-              
-              <a href="uploads/data_excle/data.csv" class="btn btn-success" target="_blank"><img src="uploads/users/excel.png" height="20"/></a><!-- <a href="excle.php" class="btn btn-success">Excle</a> 
-              <a onclick="return confirm('Yakin Hapus!!!')" href="detail_pengajuan.php?id=<?=$_GET['id'];?>&status=h" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>-->
+              <a href="uploads/data_excle/data.csv" class="btn btn-success" target="_blank"><img src="uploads/users/excel.png" height="20"/></a>
+             
               <?php }else{ ?>
                 <!-- <a href="pengajuan_verif.php?id=<?=$sales1[0]['id_nodin'];?>" class="btn btn-warning">Back</a> -->
               <?php } ?>
@@ -137,6 +141,9 @@ if($_GET['status']=='bj'){
                        <span class="glyphicon glyphicon-print"></span>
                      </a>
                      <a onclick="return confirm('Yakin Cetak?')" href="cetak_nominatif.php?id=<?php echo (int)$sale['id'];?>" class="btn btn-success btn-xs"  title="Nominatif" data-toggle="tooltip" target="_BLANK">
+                       <span class="glyphicon glyphicon-print"></span>
+                     </a>
+                     <a onclick="return confirm('Yakin Cetak?')" href="cetak_nominatif_pum.php?id=<?php echo (int)$sale['id'];?>" class="btn btn-success btn-xs"  title="Nominatif PUM" data-toggle="tooltip" target="_BLANK">
                        <span class="glyphicon glyphicon-print"></span>
                      </a>
                   </div>
@@ -281,7 +288,7 @@ if($_GET['status']=='bj'){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" name="Import" value="Upload">
+        <input type="submit" class="btn btn-primary" name="Import_dataPUM" value="Upload">
       </div>
       </form>
     </div>

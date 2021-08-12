@@ -28,29 +28,31 @@
      $nip_bpp = remove_junk($db->escape($_POST['nip_bpp']));
      $keterangan = remove_junk($db->escape($_POST['keterangan']));
      $jabatan_pimpinan = remove_junk($db->escape($_POST['jabatan_pimpinan']));
+     $dipa = remove_junk($db->escape($_POST['dipa']));
+     $kode_satker = remove_junk($db->escape($_POST['kode_satker']));
      $date    = make_date();
      $query  = "UPDATE satker SET ";
-     $query .=" prefik='{$prefik}',tahun='{$tahun}',ppk='{$ppk}',nip_ppk='{$nip_ppk}',pimpinan='{$pimpinan}',nip_pimpinan='{$nip_pimpinan}',bpp='{$bpp}',nip_bpp='{$nip_bpp}',jabatan_pimpinan='{$jabatan_pimpinan}' WHERE id='{$id}'";
+     $query .=" prefik='{$prefik}',tahun='{$tahun}',ppk='{$ppk}',nip_ppk='{$nip_ppk}',pimpinan='{$pimpinan}',nip_pimpinan='{$nip_pimpinan}',bpp='{$bpp}',nip_bpp='{$nip_bpp}',jabatan_pimpinan='{$jabatan_pimpinan}',DIPA='{$dipa}',kode_satker='{$kode_satker}' WHERE id='{$id}'";
       // var_dump($query);exit();
      if($db->query($query)){
        $session->msg('s',"Setting Updated ");
        if($user['user_level']==2){
         redirect('setting.php', false);
        }else{
-       redirect('setting.php?id='.$id_nodin.'', false);
+       redirect('setting.php', false);
        }
      } else {
        $session->msg('d',' Sorry failed to added!');
        if($user['user_level']==2){
         redirect('setting.php', false);
       }else{
-        redirect('setting.php?id='.$id_nodin.'', false);
+        redirect('setting.php', false);
       }
      }
 
    } else{
      $session->msg("d", $errors);
-        redirect('setting.php?id='.$id_nodin.'', false);
+        redirect('setting.php', false);
    }
 
  }
@@ -161,6 +163,26 @@
                   </span>
                  
                   <input type="text" class="form-control" value="<?=$satker[0]['nip_bpp'];?>" name="nip_bpp" placeholder="nip_bpp">
+               </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                   <i class=""></i>DIPA
+                  </span>
+                 
+                  <input type="text" class="form-control" value="<?=$satker[0]['DIPA'];?>" name="dipa" placeholder="dipa">
+               </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                   <i class=""></i>Kode Satker
+                  </span>
+                 
+                  <input type="text" class="form-control" value="<?=$satker[0]['kode_satker'];?>" name="kode_satker" placeholder="kode_satker">
                </div>
               </div>
 

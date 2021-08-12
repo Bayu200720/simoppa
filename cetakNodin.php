@@ -191,7 +191,7 @@ $user['id_satker'] = $satker[0]['id'];
       </tr>
       <tr>
         <td height="54" class="style24">&nbsp;</td>
-        <td class="style24">Kepala Bagian Keuangan Badan Litbang SDM </td>
+        <td class="style24">Koordinator Keuangan Badan Litbang SDM </td>
         <td class="style24">&nbsp;</td>
         <td class="style24">&nbsp;</td>
       </tr>

@@ -110,7 +110,7 @@ table td {padding-left:3px;}
       <?php $pengajuan = find_by_id('pengajuan',$hasil['id_pengajuan']); 
         $nodin = find_by_id('nodin',$pengajuan['id_nodin']);
        // dd($hasil);
-        if($nodin['id_satker'] == 1 OR $nodin['id_satker'] == 2 OR $nodin['id_satker'] == 3 OR $nodin['id_satker'] == 4 OR $nodin['id_satker'] == 14){ print "Bendahara Pengeluaran";}else{print "Bendahara Pengeluaran Pembantu";}?> </td>
+        if($nodin['id_satker'] == 1 OR $nodin['id_satker'] == 2 OR $nodin['id_satker'] == 3 OR $nodin['id_satker'] == 4 OR $nodin['id_satker'] == 14){ print "Bendahara Pengeluaran";}else{print "Bendahara Pengeluaran";}?> </td>
     <td width="295" class="style24">&nbsp;</td>
     <td width="259" class="style24">&nbsp;Jakarta,    
       <label>

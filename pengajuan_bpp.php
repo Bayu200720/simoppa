@@ -163,6 +163,8 @@ if(isset($_POST['no_spm'])){
                     echo "verif_LSkur50.php?id=".$sale['id_nodin']."&v=".$sale['id'];
                   }else if($sale['id_jenis_pengajuan']==8){
                     echo "verif_LSBop_b.php?id=".$sale['id_nodin']."&v=".$sale['id'];
+                  }else if($sale['id_jenis_pengajuan']==9){
+                    echo "verif_by.kuliah_LN.php?id=".$sale['id_nodin']."&v=".$sale['id'];
                   }else{
                     echo "verif_GU.php?id=".$sale['id_nodin']."&v=".$sale['id'];
             

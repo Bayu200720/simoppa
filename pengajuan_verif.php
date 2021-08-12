@@ -112,7 +112,9 @@ $idi= $_GET['id'];
                echo "verif_LSjasprof.php?id=".$sale['id_nodin']."&v=".$sale['id'];
              }else if($sale['id_jenis_pengajuan']==5){
                echo "verif_LSkur50.php?id=".$sale['id_nodin']."&v=".$sale['id'];
-             }else{
+             }else if($sale['id_jenis_pengajuan']==9){
+              echo "verif_by.Kuliah_LN.php?id=".$sale['id_nodin']."&v=".$sale['id'];
+            }else{
                echo "verif_GU.php?id=".$sale['id_nodin']."&v=".$sale['id'];
        
              }
