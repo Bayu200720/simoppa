@@ -1,0 +1,187 @@
+<?php
+  $page_title = 'All Pengajuan';
+  require_once('includes/load.php');
+  include "phpqrcode/qrlib.php";
+  // Checkin What level user has permission to view this page
+  if($user['user_level'] == 3){ 
+    page_require_level(3);
+  }else if($user['user_level'] == 8){
+    page_require_level(8);
+  }else if($user['user_level'] == 6){
+    page_require_level(6);
+  } 
+?>
+<?php
+$nodin = find_all_global('pengajuan_pum',$_GET['id'],'id');
+$satker = find_all_global('satker',$nodin[0]['id_satker'],'id');
+$pengajuan = find_all_global('detail_pengajuan_pum',$_GET['id'],'id_pengajuan_pum');
+
+
+?>
+<?php //include_once('layouts/header.php'); ?>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Untitled Document</title>
+
+<style type="text/css">
+   #center{
+   	text-align: center;
+   }	
+
+</style>
+</head>
+
+<body>
+  <br>
+	
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+<p align="center">&nbsp;</p>
+<p align="center"><strong>NOTA DINAS </strong></p>
+<p align="center"> No. : &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<?=$nodin[0]['no']?> /<?=$satker[0]['prefik']?>/KU.01.05/<?php $tanggal=$nodin[0]['tanggal']; $has=explode("-",$tanggal); echo $has[1]; ?>/<?=$has[0];?> </p>
+<table width="100%" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td width="173" valign="top"> Kepada Yth </td>
+    <td width="24" valign="top"> : </td>
+    <td width="743" valign="top"> Pejabat Pembuat Komitmen Badan Litbang SDM</td>
+  </tr>
+  <tr>
+    <td width="173" valign="top">Dari</td>
+    <td width="24" valign="top"> : </td>
+    <td width="743" valign="top"> Koordinator <?=$satker[0]['keterangan']?> </td>
+  </tr>
+  <tr>
+    <td width="173" valign="top">Lampiran </td>
+    <td width="24" valign="top"> : </td>
+    <td width="743" valign="top"> 1 (satu) berkas </td>
+  </tr>
+  <tr>
+    <td width="173" valign="top"> Perihal </td>
+    <td width="24" valign="top"> : </td>
+    <td width="743" valign="top"> Usulan <?php echo $nodin[0]['jenis_pengajuan']?> </td>
+  </tr>
+  <tr>
+    <td width="173" valign="top"> Tanggal </td>
+    <td width="24" valign="top"> : </td>
+    <td width="743" valign="top"><?php echo tanggal_indo($nodin[0]['tanggal']); ?></td>
+  </tr>
+  <tr>
+    <td width="173" valign="top"> Sifat </td>
+    <td width="24" valign="top"> :</td>
+    <td width="743" valign="top"> Segera </td>
+  </tr>
+  <tr>
+    <td colspan="3" valign="top"><hr></td>
+  </tr>
+  <tr>
+    <td colspan="3" valign="top">Dalam rangka pelaksanaan kegiatan <?=$satker[0]['keterangan']?>, bersama ini di sampaikan pengajuan <?php echo $nodin[0]['jenis_pengajuan']?> sebagai berikut : </td>
+  </tr>
+  <tr>
+    <td colspan="3" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" valign="top"><table width="99%" border="1" align="left" cellpadding="0" cellspacing="0">
+  <tr id="center">
+    <td width="48" valign="bottom"><strong> No</strong>.</td>
+    <td width="281" valign="bottom"><strong> MAK</strong></td>
+    <td width="162" valign="bottom"><strong> Nominal</strong></td>
+ 
+  </tr>
+  <?php $no=0; $jml=0; foreach ($pengajuan as $p):?>
+  <tr id="center">
+    <td width="48" valign="bottom"><strong> <?php $no+=1;echo $no;?></strong>.</td>
+    <td width="281" valign="bottom"><strong><?php $akun = find_by_id('akun',$p['id_akun']); echo $akun['mak'];?></strong></td>
+    <td width="162" valign="bottom"><strong><?=rupiah($p['nominal']);?></strong></td>
+  </tr>
+  <?php $jml+=$p['nominal'];  endforeach;?>
+  <tr id="center">
+    <td width="48" valign="bottom"><strong> &nbsp;</strong></td>
+    <td width="281" valign="bottom" 
+    ><strong> Jumlah</strong></td>
+    <td width="162" valign="bottom" 
+    ><strong> <?=rupiah($jml);?></strong></td>
+  </tr>
+</table></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" valign="top">Demikian disampaikan, atas perhatian dan kerjasamanya diucapkan terimakasih </td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3" valign="top"><table width="100%" border="0" align="left" cellpadding="0" cellspacing="0">
+      <tr>
+        <td colspan="4" class="style24">&nbsp;</td>
+      </tr>
+      <tr>
+        <td width="14" class="style24">&nbsp; </td>
+        <td width="329" valign="top" class="style24">
+          <p><br>
+            <br>
+            <br>
+            
+          </td>
+        <td width="188" valign="top" class="style24">&nbsp;</td>
+        <td width="330" valign="top" class="style24"><p>Koordinator <br>
+        <?=$satker[0]['keterangan']?> </p>
+            <p> <br>
+              <br>
+              <?php
+              ini_set('date.timezone', 'Asia/Jakarta');
+              $carikoor= find_koor($satker[0]['id']);//dd($carikoor);
+                  $nama = "Disahkan Oleh :".$carikoor[0]['name']." NIP.".$carikoor[0]['nip'];
+                  $folder = "qrcode/";
+                  $qual = "H";
+                  $nm_file= "qr".$carikoor[0]['nip'].".png";
+                  $ukuran = 4;
+                  $padding = 0;
+                QRCODE :: png($nama,$folder.$nm_file,$qual,$ukuran,$padding); 
+                
+                if($nodin[0]['status']== 1 ){
+                  
+                ?>
+                <img src="qrcode/<?=$nm_file;?>" alt="">
+                <?php } ?>
+              <br>
+            
+            <p>&nbsp; </p>
+            <p>&nbsp; </p>
+          <p>&nbsp; </p></td>
+      </tr>
+      <tr>
+        <td class="style24">&nbsp;</td>
+        <td class="style24"><strong>Tembusan Yth: </strong></td>
+        <td class="style24">&nbsp;</td>
+        <td class="style24">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="54" class="style24">&nbsp;</td>
+        <td class="style24">Koordinator Keuangan Badan Litbang SDM </td>
+        <td class="style24">&nbsp;</td>
+        <td class="style24">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+</table>
+  <br><br><br>
+  
+</body>
+</html>
