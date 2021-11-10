@@ -1,9 +1,27 @@
-     </div>
+</div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <div id="modal-upload-progress" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Prosess Upload File..</h4>
+          </div>
+          <div class="modal-body">
+            <div class="progress">
+              <div id="modal-percent-container-progress" class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                <span id="modal-percent-progress" class="sr-only" style="position: static;"></span>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
   <script type="text/javascript" src="libs/js/functions.js"></script>
+  <script type="text/javascript" src="libs/js/jquery.form.min.js"></script>
   
   <!-- Datatable -->
   <script src="libs/js/dataTable/jquery.dataTables.min.js"></script>
@@ -14,9 +32,8 @@
   <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.5/js/responsive.bootstrap4.min.js"></script> -->
-  <script>
+  <script type="text/javascript">
 
-   
 function add_panjar(a,b,c){
         $('#Body_input').load('form_input_p.php?id_satker='+a+'&spm='+b+'&id='+c);
         $('#form_panjar').modal('show');
@@ -67,20 +84,26 @@ function Add_detail(a){
         $('#NodinPengajuan').modal('show');
     }
 
-      var e_nominal = document.getElementById('e_nominal');
-		e_nominal.addEventListener('keyup', function(e){
-			e_nominal.value = formatRupiah(this.value, 'Rp. ');
-		});
+    var e_nominal = document.getElementById('e_nominal');
+    if (e_nominal) {
+      e_nominal.addEventListener('keyup', function(e){
+        e_nominal.value = formatRupiah(this.value, 'Rp. ');
+      });
+    }
 
     var e_ppn = document.getElementById('e_ppn');
-		e_ppn.addEventListener('keyup', function(e){
-			e_ppn.value = formatRupiah(this.value, 'Rp. ');
-		});
+    if (e_ppn) {
+      e_ppn.addEventListener('keyup', function(e){
+        e_ppn.value = formatRupiah(this.value, 'Rp. ');
+      });
+    }
 
     var e_pph = document.getElementById('e_pph');
-		e_pph.addEventListener('keyup', function(e){
-			e_pph.value = formatRupiah(this.value, 'Rp. ');
-		});
+    if (e_pph) {
+      e_pph.addEventListener('keyup', function(e){
+        e_pph.value = formatRupiah(this.value, 'Rp. ');
+      });
+    }
 
    
 
@@ -122,6 +145,53 @@ function Add_detail(a){
 
     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
     return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+  }
+  
+  $(document).ready(function () {
+    var formUploadWithProgress = $('form#form_upload_progress');
+   
+    var inputFile = $('input#file_upload');
+    
+    formUploadWithProgress.submit(function(e) {
+      console.log(e);
+      if (inputFile.val()) {
+        e.preventDefault();
+        var optionsUploadFile = {
+          // url: $(this).attr('data-action-url'),
+          resetForm: true,
+          beforeSubmit: onBeforeSubmit,
+          uploadProgress: onUploadProgress,
+          success: onSuccess
+        };
+        $(this).ajaxSubmit(optionsUploadFile);
+        return false;
+      }
+    });
+  });
+
+  function onBeforeSubmit() {
+    $('#modal-upload-progress').modal('show')
+  }
+
+  function onSuccess(res) {
+    var alertFileError = $('div#alert-file-error');
+    var spanMessage = $('span#alert-messages');
+    var response = JSON.parse(res);
+    $('#modal-upload-progress').modal('hide')
+    if (response.success) {
+      window.open(window.location.origin+response.redirect.to, '_self');
+    }
+    if (!res.success) {
+      spanMessage.text(response.message);
+      alertFileError.css('display', 'block');
+    }
+  }
+
+  function onUploadProgress(event, position, total, percentComplete) {
+    console.log(percentComplete);
+    $('span#modal-percent-progress').text(percentComplete+'% Uploading..');
+    $('#modal-percent-container-progress').attr('aria-valuenow', percentComplete);
+    $('#modal-percent-container-progress').css('width', percentComplete+'%');
   }
   
 </script>

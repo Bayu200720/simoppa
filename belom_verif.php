@@ -8,28 +8,14 @@
    page_require_level(3); 
    }else if($user['user_level'] == 7 ){ //echo "7";exit();
      page_require_level(7); 
-   }else if($user['user_level'] == 10 ){ //echo "7";exit();
-    page_require_level(10); 
-  }else{ //echo "3";exit();
+   }else{ //echo "3";exit();
      page_require_level(3); 
    }
 
 
 ?>
 <?php
-   // echo $user['user_level']; die;
-  if($user['user_level']==2){
-     $sales = find_pengajuanokkurang();
-  }else if($user['user_level']==10){
-    $sales = find_pengajuanokkurangppspm();
-  }else if($user['user_level']==7){
-    $sales = find_pengajuanokkurangkv();
-  }
-
-
-if(isset($_POST['all'])){
-  $sales = find_pengajuanok();
-}
+$sales = find_pengajuanokKurang();
 
 if(isset($_POST['cari'])){
   $sql = "select * from nodin where tanggal between '".$_POST['tgl1']."' and '".$_POST['tgl2']."'";
@@ -62,7 +48,6 @@ $idi= $_GET['id'];
                     <input type="date"   name="tgl2"> 
               
                     <input type="submit" class="btn btn-primary" name="cari" value="Cari">
-                    <input type="submit" class="btn btn-primary" name="all" value="All">
                 
               </form>
           </div>
@@ -79,7 +64,6 @@ $idi= $_GET['id'];
                 <th class="text-center" > Nominal Pengajuan </th>
                 <th class="text-center" > Status </th>
                 <th class="text-center" > Validasi Kasubbag </th>
-                <th class="text-center" > Validasi PPSPM </th>
                 <th class="text-center" > Lembar Verif </th>
                 <th class="text-center" > Waktu </th>
                 <th class="text-center" style="width: 100px;"> Actions </th>
@@ -121,19 +105,6 @@ $idi= $_GET['id'];
                         }	             		
                 	?>
               </td>
-
-              <td class="text-center" >
-                	<?php  if($sale['status_ppspm'] == 0)
-                        {
-                           echo "<span class='glyphicon glyphicon-remove-circle btn-warning'></span>Belom Tervalidasi ";
-                        }else if($sale['status_ppspm'] == 1){
-                          echo "<span class='glyphicon glyphicon-ok-circle btn-success'></span>Tervalidasi ";
-                        }else if($sale['status_ppspm']== 2){
-                          echo "<span class='glyphicon glyphicon-remove-circle btn-danger'></span>Ditolak ";
-                        }	             		
-                	?>
-              </td>
-
               <td class="text-center" >
               <?php $verif = find_all_global('verifikasi',$sale['id'],'id_pengajuan');if($verif[0]['id_pengajuan']!=NULL){?>
           
@@ -194,7 +165,6 @@ $idi= $_GET['id'];
            <tfoot>
            <tr>
                 <th class="text-center" >#</th>
-                <th class="text-center" >  </th>
                 <th class="text-center" >  </th>
                 <th class="text-center" >  </th>
                 <th class="text-center" >  </th>

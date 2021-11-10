@@ -7,7 +7,7 @@
   if($user['user_level'] == 7 ){
          page_require_level(7);
   }else if($user['user_level'] == 2 ){
-      page_require_level(2);
+      page_require_level(9);
   }
 
 
@@ -326,6 +326,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                 <th class="text-center"> SPM yang Telah di Proses</th>
                 <th class="text-center"> Dokumen SP2D</th>
                 <th class="text-center"> SP2D</th>
+                <th class="text-center"> Kekurangan</th>
                 <th class="text-center"> Upload Dokumen Pertanggungjawaban</th>
              
              </tr>
@@ -373,6 +374,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                             <?php if($sale['upload_adk_spm']!=''){?><a href="uploads/adk_spm/<?=$sale['upload_adk_spm']?>" class="btn btn-success" target="_blank">Preview</a><?php } ?>
                         <?php } ?>
                     </td>
+                    
                     <td class="text-center">
                           <?php if($user['user_level'] == 5 or $user['user_level'] == 4) { ?>
                             
@@ -388,25 +390,25 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                                     <?php if($sale['file_sp2d']!=''){?><a href="uploads/sp2d/<?=$sale['file_sp2d']?>" class="btn btn-success" target="_blank">Preview</a><?php } ?>
                             <?php } ?>
                     </td>
+                    
                     <td class="text-center">
-                         <?php if($user['user_level'] == 6){
+                    <?php
                             echo $sale['sp2d'];
-                         }else{?>
-                            <?php if($sale['sp2d'] == ''){?><a href="#" class="btn btn-primary" id="editsp2d" data-toggle="modal" data-target="#exampleModal" data-id='<?=$sale['id'];?>'>Input SP2D</a><?php }else{?>
-                            <a href="#" class="btn btn-warning" id="editsp2d" data-toggle="modal" data-target="#exampleModal" data-id='<?=$sale['id'];?>' data-sp2d='<?=$sale['sp2d'];?>'><?=$sale['sp2d'];?></a> <?php } ?>
-                        <?php } ?>
+                    ?>
                     </td>
+                    <td class="text-center">
+                             <?php if($sale['upload_kekurangan']==''){?><?php }else{?>
+                             <a href="uploads/kekurangan/<?=$sale['upload_kekurangan']?>" class="btn btn-success" target="_blank">Preview</a>
+                               
+                             <?php } ?>
 
+                    </td>
                     <td class="text-center"><?php if($sale['upload_pertanggungjawaban']==''){?><?php }else{?>
                              <a href="uploads/pertanggungjawaban/<?=$sale['upload_pertanggungjawaban']?>" class="btn btn-success" target="_blank">Preview</a>
                                
                              <?php } ?>
-                    </td>
-
-              
+                    </td>       
              </tr>
-
-
              <?php //endforeach;?>
            </tbody>
          </table>
@@ -435,11 +437,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
              <tr>
                    
                 <td class="text-center">
-                    <?php if($sale['status_verifikasi']=='0'){?>
-                        
-                      <a class="btn btn-success" href="<?php $jenis= find_by_id('jenis_pengajuan',$sale['id_jenis_pengajuan']); echo $jenis['link']?>.php?id=<?php echo $sale['id']?>&v=insert"><?=$jenis['keterangan']?></a>
-                      
-                    <?php }else{
+                   <?php
                         
                         $v = find_by_filed('verifikasi',$sale['id'],'id_pengajuan');  
                         //dd($v['status_pengajuan']);
@@ -448,7 +446,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                           <span class="label label-danger">Ditolak verifikator</span><br>                   
                         <?php }else if($v['status_pengajuan']==0){ ?>
                           <span class="label label-warning">Belum diverifikasi</span><br>
-                        <?php }else if($v['status_pengajuan']==1){ ?>
+                        <?php }else if($v['status_pengajuan']!=0){ ?>
                           <span class="label label-success">Terverifikasi verifikator</span><br>
                         <?php } ?>
                         <br>
@@ -461,17 +459,6 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                         <?php }else{ ?>
                           <span class="label label-warning"> Kasubbag belum verifikasi</span>
                         <?php } ?>
-                        <br>
-
-                       <?php if($p['status_ppspm']==1){   ?>
-                        <span class="label label-success">Terverifikasi PPSPM</span>
-                        <?php }else if($p['status_ppspm']==2){ ?>
-                        <span class="label label-danger">Ditolak PPSPM</span>
-                        <?php }else{ ?>
-                          <span class="label label-warning"> PPSPM belum verifikasi</span>
-                        <?php } ?>
-                          <br>
-
                         <?php  $user = find_by_id('users',$_SESSION['user_id']); if($user['user_level'] == 2  or $user['user_level'] == 7){  ?>
                                 <a href="<?php $jenis= find_by_id('jenis_pengajuan',$sale['id_jenis_pengajuan']); echo $jenis['link'];?>.php?id=<?=$sale['id']?>" class="btn btn-success">Edit</a>
                                     <br>
@@ -480,12 +467,12 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
                                 [<?php $user = find_by_id('users',(int)$sale['status_verifikasi']);echo $user['name'];?>]
                                 </a>
                     
-                    <?php }} ?>
+                    <?php } ?>
                     
                 </td>
                 <td class="text-center">
 
-                    <?php  $user = find_by_id('users',$_SESSION['user_id']); if($sale['status_spm']==0 and $user['user_level'] == 3 and $sale['status_ppspm'] == 1){?>
+                    <?php  $user = find_by_id('users',$_SESSION['user_id']); if($sale['status_spm']==0 and $user['user_level'] == 3 and $sale['verifikasi_kasubbag_v'] == 1){?>
                               <a href="update_spm.php?id=<?=$sale['id']?>" class="btn btn-success">Proses</a>         
                     <?php }else if($sale['status_spm'] != 0 and $user['user_level'] == 3){ ?>          
                               <a href="batal_spm.php?id=<?=$sale['id']?>" class="btn btn-danger">Batal</a>

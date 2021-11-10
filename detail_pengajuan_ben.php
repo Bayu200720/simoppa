@@ -22,6 +22,33 @@
 $sales = find_detail($_GET['id']);
 $sales1 = find_all_global('pengajuan',$_GET['id'],'id');
 
+if($_GET['s'] == 'batalUpload'){
+  $id =$_GET['id'];
+  $dp= find_by_id('detail_pengajuan',$id);
+  //var_dump($dp['id_pengajuan']);die;
+  $id_pengajuan=$dp['id_pengajuan'];
+  $query  = "UPDATE detail_pengajuan SET ";
+    $query .=" file_spby= ''";
+    $query .=" WHERE id='{$id}'";
+  $hasil=$db->query($query);
+  
+  if($hasil){
+      $session->msg('s',"Delete Success ");
+      if($user['user_level']==2){
+      redirect('detail_pengajuan_ben.php?id='.$id_pengajuan, false);
+      }else{
+      redirect('detail_pengajuan_ben.php?id='.$id_pengajuan, false);
+      }
+  } else {
+      $session->msg('d',' Sorry failed to added!');
+      if($user['user_level']==2){
+      redirect('detail_pengajuan_ben.php?id='.$id_pengajuan, false);
+  }else{
+      redirect('detail_pengajuan_ben.php?id='.$id_pengajuan, false);
+  }
+  }
+}
+
 if($_GET['status'] == 'h'){
   $id =$_GET['id'];
   $query="DELETE FROM detail_pengajuan WHERE id_pengajuan =".$id;
@@ -337,6 +364,7 @@ if($_GET['status']=='batal'){
                 <th class="text-center" style="width: 15%;"> Tanggal </th>               
                 <th class="text-center" style="width: 15%;"> Keterangan </th>
                 <th class="text-center" style="width: 15%;"> Kekurangan Verifikasi </th>
+                <th class="text-center" style="width: 15%;"> SPBY </th>
                 <th class="text-center" style="width: 100px;"> Actions </th>
              </tr>
             </thead>
@@ -365,6 +393,16 @@ if($_GET['status']=='batal'){
                <?php } ?>
                </td>
                <td class="text-center">
+                 <?php if($sale['file_spby'] == ''){?>
+
+                 <a href="media_spby.php?id=<?php echo $sale['id']?>" class="btn btn-primary">Upload</a>
+                 
+                 <?php }else{ ?>
+                  <a href="uploads/spby/<?php echo $sale['file_spby'];?>" class="btn btn-success">Preview</a>
+                  <a href="detail_pengajuan_ben.php?s=batalUpload&id=<?php echo $sale['id']?>" class="btn btn-danger">Batal</a>
+                  <?php } ?>
+                </td>
+               <td class="text-center">
                <?php if($user['user_level'] == 5){ ?>
 
                   <a onclick="return confirm('Yakin Hapus?')" href="detail_pengajuan_ben.php?id=<?php echo (int)$sale['id'];?>&status=batal&idp=<?php echo $_GET['id']?>" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
@@ -378,12 +416,9 @@ if($_GET['status']=='batal'){
                      <a href="edit_detail_pengajuan.php?id=<?php echo (int)$sale['id'];?>" class="btn btn-warning btn-xs"  title="Edit" data-toggle="tooltip">
                        <span class="glyphicon glyphicon-pencil"></span>
                      </a>
-
-
                      <a href="transaksi_db_a.php?id=<?=(int)$sale['id'];?>" class="btn btn-primary btn-xs"  title="Detail SIV" data-toggle="tooltip">
                        <span class="glyphicon glyphicon-eye-open"></span>
                      </a>
-
                      <a onclick="return confirm('Yakin Hapus?')" href="delete_detail_pengajuan.php?id=<?php echo (int)$sale['id'];?>" class="btn btn-danger btn-xs"  title="Delete" data-toggle="tooltip">
                        <span class="glyphicon glyphicon-trash"></span>
                      </a>
@@ -410,6 +445,7 @@ if($_GET['status']=='batal'){
                 <th class="text-center"> <?=rupiah($tot1);?> </th>
                 <th class="text-center"> <?=rupiah($tot2);?> </th>
                 <th class="text-center">Status Verifikasi  </th>
+                <th class="text-center"> </th>
                 <th class="text-center"> 
                   <?php   if($user['user_level'] != 6 and $user['user_level'] != 3 and $user['user_level'] != 4 and $user['user_level'] != 5 and $user['user_level'] != 7){?>
                       <?php $v=find_all_global('verifikasi',$_GET['id'],'id_pengajuan');

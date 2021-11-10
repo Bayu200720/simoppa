@@ -26,6 +26,9 @@
          <li><a href="pengajuan_verif.php">Manage Pengajuan</a> </li>
      </ul>
      <ul class="nav submenu">
+         <li><a href="belom_verif.php">Belom Verif</a> </li>
+     </ul>
+     <ul class="nav submenu">
          <li><a href="verifed.php">Terverifikasi</a> </li>
      </ul>
   </li>
@@ -40,6 +43,13 @@
     <a href="pj_bpp.php" class="submenu-toggle">
       <i class="glyphicon glyphicon-th-list"></i>
        <span>Dokumen PJ</span>
+      </a>
+      
+  </li>
+  <li>
+    <a href="pj_all.php" class="submenu-toggle">
+      <i class="glyphicon glyphicon-th-list"></i>
+       <span>Kumpulan Dokumen </span>
       </a>
       
   </li>

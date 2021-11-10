@@ -15,7 +15,7 @@
       }
   }
   $query  = "UPDATE pengajuan SET ";
-        $query .= "status_sp2d='0'";
+        $query .= "status_sp2d='0' ,status_pengambilan_uang= '0'";
         $query .= "WHERE id='{$pengajuan["id"]}'";
         $result = $db->query($query);
         $pencairan= find_all_global('pencairan',$pengajuan['id'],'id_pengajuan');

@@ -16,16 +16,16 @@
     if($photo->process_kekurangan($id)){
         $session->msg('s','dokumen has been uploaded.');
             if($user['user_level']==5){
-           redirect('Pertanggungjawaban.php', false);
+           redirect('home.php', false);
         }else{
-        redirect('Pertanggungjawaban.php?id='.$pengajuan['id']);
+        redirect('home.php?id='.$pengajuan['id']);
        }
     } else{
       $session->msg('d',join($photo->errors));
       if($user['user_level']==5){
-           redirect('Pertanggungjawaban.php?id='.$pengajuan['id'], false);
+           redirect('home.php?id='.$pengajuan['id'], false);
         }else{
-        redirect('Pertanggungjawaban.php?id='.$pengajuan['id']);
+        redirect('home.php?id='.$pengajuan['id']);
        }
     }
 

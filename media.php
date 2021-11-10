@@ -28,16 +28,16 @@
     if($photo->process_media($id)){
         $session->msg('s','dokumen has been uploaded.');
             if($user['user_level']==5){
-           //redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
+           redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
         }else{
-          //redirect('detail_dokumen.php?id='.$pengajuan['id']);
+          redirect('detail_dokumen.php?id='.$pengajuan['id']);
        }
     } else{
       $session->msg('d',join($photo->errors));
       if($user['user_level']==5){
-          // redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
+           redirect('detail_dokumen.php?id='.$pengajuan['id'], false);
         }else{
-        //redirect('detail_dokumen.php?id='.$pengajuan['id']);
+        redirect('detail_dokumen.php?id='.$pengajuan['id']);
        }
     }
 
@@ -54,7 +54,7 @@
         <div class="panel panel-default">
           <div class="panel-heading clearfix">
             <span class="glyphicon glyphicon-camera"></span>
-            <span>Dokumen</span>
+            <span>Dokumen <?php echo $pengajuan['SPM'] ?></span>
             <div class="pull-right">
               <form class="form-inline" action="media.php?id=<?=$_GET['id'];?>" method="POST" enctype="multipart/form-data">
               <div class="form-group">

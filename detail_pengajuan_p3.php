@@ -16,7 +16,7 @@
     }else if($user['user_level'] == 8){ //echo "3";exit();
       page_require_level(8);
     }else{
-      page_require_level(3);
+      page_require_level(9);
     }  
   ?>
 <?php
@@ -328,11 +328,10 @@ if($_GET['s']=='tolak'){
               <a href="uploads/data_excle/data.csv" class="btn btn-success" target="_blank"><img src="uploads/users/excel.png" height="20"/></a><!-- <a href="excle.php" class="btn btn-success">Excle</a> -->
               <a onclick="return confirm('Yakin Hapus!!!')" href="detail_pengajuan.php?id=<?=$_GET['id'];?>&status=h" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
               <?php }else{ ?>
-                
+                <!-- <a href="pengajuan_verif.php?id=<?=$sales1[0]['id_nodin'];?>" class="btn btn-warning">Back</a> -->
               <?php } ?>
 
-            <?php } } ?>    
-            <a href="pengajuan_verif.php" class="btn btn-warning">Back</a> 
+            <?php } } ?>     
           </div>
         </div>
         <div class="panel-body" style="width:100%">
@@ -368,16 +367,15 @@ if($_GET['s']=='tolak'){
                <td class="text-center"><?php echo rupiah($sale['ppn']); ?></td>
                <td class="text-center"><?php echo $sale['tanggal_dp']; ?></td>
                <td class="text-center"><?php echo $sale['keterangan'];  ?></td>
-               <td class="text-center"><?php if($sale['file_pj']==""){}else{?><a class="btn btn-success" target ="_BLANK" href="uploads/sptjb_pum/<?php echo $sale['file_pj'];  ?>">Preview</a><?php } ?>
-               <?php if($sale['file_spby']==""){}else{?>
-               <a class="btn btn-success" target ="_BLANK" href="uploads/spby/<?php echo $sale['file_spby'];  ?>">Preview SPBY</a></td>
-               <?php } ?>
+               <td class="text-center"><?php if($sale['file_pj']==""){}else{?><a class="btn btn-success" target ="_BLANK" href="uploads/sptjb_pum/<?php echo $sale['file_pj'];  ?>">Preview</a><?php } ?></td>
                <td class="text-center">
                <?php  
               if( $user['user_level']!= '8'){
                if($user['user_level'] != 6 and $user['user_level'] != 3 and $user['user_level'] != 4 and $user['user_level'] != 5 ){?>
-                   <?php if($sale['keterangan_verifikasi']==''){ ?><a href="#" class="btn btn-primary" id="kekurangan"  data-toggle="modal" data-target="#PenolakanKPPN" data-id='<?=$sale['id'];?>' data-verifikasi='<?=$sale['keterangan_verifikasi'];?>'>Keterangan Verifikasi</a>
+                   <?php if($sale['keterangan_verifikasi']==''){ ?>
+
                    <?php }else{ ?><a href="#" class="btn btn-warning" id="kekurangan"  data-toggle="modal" data-target="#PenolakanKPPN" data-id='<?=$sale['id'];?>' data-verifikasi='<?=$sale['keterangan_verifikasi'];?>'><?=$sale['keterangan_verifikasi'];?></a><?php } ?>
+
                <?php  }else{ ?>
                 <span class="label label-danger"><?=$sale['keterangan_verifikasi'];?></span>
                <?php }} ?>
@@ -390,9 +388,6 @@ if($_GET['s']=='tolak'){
                        <span class="glyphicon glyphicon-pencil"></span>
                      </a>
                       <?php } ?>
-                     <!-- <a href="transaksi_db.php?id=<?php echo (int)$sale['id_sptjb_api'];?>&id_dp=<?=(int)$sale['id'];?>" class="btn btn-sucess btn-xs"  title="Detail API" data-toggle="tooltip">
-                       <span class="glyphicon glyphicon-edit"></span>
-                     </a> -->
 
                      <a href="transaksi_db_a.php?id=<?=(int)$sale['id'];?>" class="btn btn-primary btn-xs"  title="Detail SIV" data-toggle="tooltip">
                        <span class="glyphicon glyphicon-eye-open"></span>
@@ -427,24 +422,15 @@ if($_GET['s']=='tolak'){
                 <th class="text-center"> </th> 
                 <th class="text-center">Status Verifikasi  </th>
                 <th class="text-center"> 
-                  <?php   if($user['user_level'] != 6 and $user['user_level'] != 3 and $user['user_level'] != 4 and $user['user_level'] != 5 and $user['user_level'] != 7){?>
-                      <?php $v=find_all_global('verifikasi',$_GET['id'],'id_pengajuan');
-                       if( $user['user_level']!= '8'){
-                        if($v[0]['status_pengajuan']==''){?>
-                           <a href="detail_pengajuan.php?id=<?=$v[0]['id']?>&s=ok" class="btn btn-success">Terima</a>
-                           <a href="detail_pengajuan.php?id=<?=$v[0]['id']?>&s=vtolak" class="btn btn-danger">Tolak</a>
-                           
-                        <?php }else{ ?>
-                          <a href="detail_pengajuan.php?id=<?=$v[0]['id']?>&s=batal" class="btn btn-danger">Batalkan</a>
-                        <?php }} ?>
-                  <?php } ?>
+                 
+                 
                 </th>
                 <th class="text-center">  </th>
                 <th class="text-center"> </th>
              </tr>
              </tfoot>
              <?php $user = find_by_id('users',$_SESSION['user_id']);
-              //var_dump($user['user_level']);
+              
             if($user['user_level'] == 7){ 
               ?>
             <tr>
@@ -458,13 +444,7 @@ if($_GET['s']=='tolak'){
                 <th class="text-center"> </th>     
                 <th class="text-center">Status Verifikasi Kasubbbag Verifiaksi  </th>
                 <th class="text-center"> 
-                      <?php $v=find_by_id('pengajuan',$_GET['id']);
-                        if($v['verifikasi_kasubbag_v']==''){?>
-                           <a href="detail_pengajuan.php?id=<?=$_GET['id']?>&s=kasubok" class="btn btn-success">Terima</a>
-                           <a href="detail_pengajuan.php?id=<?=$_GET['id']?>&s=tolak" class="btn btn-danger">Tolak</a>
-                        <?php }else{ ?>
-                          <a href="detail_pengajuan.php?id=<?=$_GET['id']?>&s=kasubbatal" class="btn btn-danger">Batalkan</a>
-                        <?php } ?>
+                      
                 </th>
                 <th class="text-center"></th>
              </tr>
@@ -475,85 +455,3 @@ if($_GET['s']=='tolak'){
     </div>
   </div>
 <?php include_once('layouts/footer.php'); ?>
-
-
-<!-- Modal Edit verifikasi-->
-<div class="modal fade" id="PenolakanKPPN" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Kekurangan Verifikasi </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="detail_pengajuan.php" method="POST">
-      <div class="modal-body">
-       <div class="form-group">
-        <label for="exampleInputEmail1">Masukkan Kekurangan</label>
-        <input type="text" class="form-control" id="verifikasi" name="verifikasi" placeholder="verifikasi" required> 
-       </div>
-       <input type="hidden" class="form-control" id="id" name="id" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" name="update_kekurangan" value="Save">
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="KeteranganKsVerif" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Kekurangan Kasubbag Verifikasi </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="detail_pengajuan.php" method="POST">
-      <div class="modal-body">
-       <div class="form-group">
-        <label for="exampleInputEmail1">Masukkan Kekurangan</label>
-        <input type="text" class="form-control" id="verifikasi" name="verifikasi" placeholder="verifikasi" required> 
-       </div>
-       <input type="hidden" class="form-control" id="id" name="id" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" name="update_kekuranganKsV" value="Save">
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<!-- Modal Import Data-->
-<div class="modal fade" id="UploadCSV" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Import Data dari Skim</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form action="import.php" name="upload_excel" method="POST" enctype="multipart/form-data">
-      <div class="modal-body">
-       <div class="form-group">
-        <label for="exampleInputEmail1">Masukkan File CSV</label>
-        <input type="file" class="form-control" id="sptb" name="file" placeholder="sptb"> 
-       </div>
-       <input type="hidden" class="form-control" id="id" name="id" >
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" name="Import" value="Upload">
-      </div>
-      </form>
-    </div>
-  </div>
-</div>

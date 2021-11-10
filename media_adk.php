@@ -13,7 +13,7 @@
      $id = $_POST['id'];
 
   $photo = new Media();
-  $photo->upload($_FILES['file_upload'],$pengajuan['SPM']);
+  $photo->upload_adk($_FILES['file_upload'],$pengajuan['SPM']);
     if($photo->process_adk($id)){
         $session->msg('s','dokumen has been uploaded.');
             if($user['user_level']==5){
@@ -43,7 +43,7 @@
         <div class="panel panel-default">
           <div class="panel-heading clearfix">
             <span class="glyphicon glyphicon-camera"></span>
-            <span>Dokumen</span>
+            <span>Dokumen <?php echo $pengajuan['SPM'] ?></span>
             <div class="pull-right">
               <form class="form-inline" action="media_adk.php?id=<?=$_GET['id'];?>" method="POST" enctype="multipart/form-data">
               <div class="form-group">

@@ -42,7 +42,7 @@ if(isset($_GET['s']) and $_GET['s']==='hapus_adk'){
         <div class="panel-heading clearfix">
           <strong>
             <span class="glyphicon glyphicon-th"></span>
-            <span>Detail Dokumen</span>
+            <span>Detail Dokumen <?php echo $sales[0]['SPM'];?></span>
           </strong>
           <div class="pull-right">
                 <a href="pengajuan_bpp.php?id=<?=$sales[0]['id_nodin'] ?>" class="btn btn-warning">Back</a>

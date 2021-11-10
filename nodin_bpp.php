@@ -249,11 +249,11 @@ if($_GET['status']=='delete_nodin'){
           </strong>
           <div class="pull-right">
           <a href="allSPM.php" class="btn btn-primary" id="nodin"></span>ALL SPM</a>
-            <?php if($pengajuan[0]['status'] == 0){?>
+            <?php // if($pengajuan[0]['status'] == 0){?>
         		  <a href="#" onclick="showT('DT_p')" class="btn btn-primary" id="nodin"><span class="glyphicon glyphicon-plus"></span>ADD</a>
-            <?php }else{ ?>
-                  <span class="btn btn-danger glyphicon glyphicon-warning-sign">upload pertanggungjawaban terlebih dahulu</span>
-            <?php } ?>
+            <?php //}else{ ?>
+                  <!-- <span class="btn btn-danger glyphicon glyphicon-warning-sign">upload pertanggungjawaban terlebih dahulu</span> -->
+            <?php // } ?>
           </div>
         </div>
         <div class="panel-body" style="width:100%"> 

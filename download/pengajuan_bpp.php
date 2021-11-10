@@ -131,11 +131,11 @@ if(isset($_POST['no_spm'])){
                
                <?php 
               // dd($verif[0]['status_pengajuan']);
-               if($sale['status']==2){?>
+               if($verif[0]['status_pengajuan']==2){?>
                    <span class="label label-danger">Ditolak oleh <?php $user = find_by_id('users',(int)$sale['status_verifikasi']);echo $user['name'];?></span>
-                <?php }else if($sale['status']==0){?>
+                <?php }else if($verif[0]['status_pengajuan']==0){?>
                    <span class="label label-warning">Belum diproses </span>
-                <?php }else if($sale['status']==1){?> 
+                <?php }else if($verif[0]['status_pengajuan']!=0){?> 
                   <span class="label label-success">Sudah diproses oleh <?php $user = find_by_id('users',(int)$sale['status_verifikasi']);echo $user['name'];?></span>
              <?php } ?>
 

@@ -1,12 +1,10 @@
 <?php
-  $page_title = 'Dokumen';
+  $page_title = 'Dokumen SPBY';
   require_once('includes/load.php');
   // Checkin What level user has permission to view this page
   page_require_level(6);
   $spm= find_by_id("pengajuan",$_GET['id']);
-  //var_dump($spm);die;
 ?>
-
 <?php include_once('layouts/header.php'); ?>
   <div class="row">
     <div class="col-md-6">
@@ -21,9 +19,9 @@
     <div class="panel panel-default">
       <div class="panel-heading clearfix">
         <span class="glyphicon glyphicon-camera"></span>
-        <span>Dokumen  <?php echo $spm['SPM']?></span>
+        <span>Dokumen SPBY  <?php echo $spm['SPM']?></span>
         <div class="pull-right">
-          <form id="form_upload_progress" class="form-inline" action="prosesU_pj.php?id=<?=$_GET['id'];?>" method="POST" enctype="multipart/form-data">
+          <form id="form_upload_progress" class="form-inline" action="PUploadSpby.php?id=<?=$_GET['id'];?>" method="POST" enctype="multipart/form-data">
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-btn">

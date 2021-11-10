@@ -7,6 +7,7 @@ class  Media {
   public $fileType;
   public $fileTempPath;
   public $fileAdkSpm;
+  public $fileSpby;
   //Set destination for upload
   public $spmPath = SITE_ROOT.DS.'..'.DS.'uploads/spm';
   public $userPath = SITE_ROOT.DS.'..'.DS.'uploads/users';
@@ -17,6 +18,7 @@ class  Media {
   public $kekuranganPath = SITE_ROOT.DS.'..'.DS.'uploads/kekurangan';
   public $Adk_spm = SITE_ROOT.DS.'..'.DS.'uploads/adk_spm';
   public $sptjb_pum = SITE_ROOT.DS.'..'.DS.'uploads/sptjb_pum';
+  public $fileSpbyPath = SITE_ROOT.DS.'..'.DS.'uploads/spby';
   
 
 
@@ -62,9 +64,39 @@ class  Media {
     else:
       $this->imageInfo = getimagesize($file['tmp_name']);
       $h= explode(".",$_FILES['file_upload']['name']);
+      $exe = end($h);
+      //echo $exe; die;
       date_default_timezone_set('Asia/Jakarta');
       $waktu= date('d-m-Y-His');
-      $nama = $spm."-".$waktu."-".$h[0].".".$h[1];
+      $nama = $spm."-".$waktu.".".$exe;
+      $this->fileName = $nama;  
+      $this->fileType  = $this->imageInfo['mime'];
+      $this->fileTempPath = $file['tmp_name'];
+     return true;
+    endif;
+
+  }
+
+  public function upload_adk($file,$spm)
+  {
+    if(!$file || empty($file) || !is_array($file)):
+       
+      $this->errors[] = "No file was uploaded.";
+      return false;
+    elseif($file['error'] != 0):
+      $this->errors[] = $this->upload_errors[$file['error']];
+      return false;
+    elseif(!$this->file_ext($file['name'])):
+      $this->errors[] = 'File not right format ';
+      return false;
+    else:
+      $this->imageInfo = getimagesize($file['tmp_name']);
+      $h= explode(".",$_FILES['file_upload']['name']);
+      $exe = end($h);
+     // echo $h[0]; die;
+      date_default_timezone_set('Asia/Jakarta');
+      $waktu= date('d-m-Y-His');
+      $nama = $h[0]."-".$waktu.".".$exe;
       $this->fileName = $nama;  
       $this->fileType  = $this->imageInfo['mime'];
       $this->fileTempPath = $file['tmp_name'];
@@ -182,7 +214,7 @@ class  Media {
       $this->errors[] = "The file {$this->fileName} already exists.";
       return false;
     }
-    //$h =$this->spmPath.'/'.$this->fileName; var_dump($h); exit();// echo 
+    //echo $this->pertanggungjawabanPath; echo "/"; echo $this->fileName; echo "<br>"; echo $this->fileTempPath; die;
     if(move_uploaded_file($this->fileTempPath,$this->pertanggungjawabanPath.'/'.$this->fileName))
     {
 
@@ -198,6 +230,43 @@ class  Media {
     }
 
   }
+
+    //function for process upload spby
+    public function process_spby($id){
+      if(!empty($this->errors)){
+          return false;
+        }
+      if(empty($this->fileName) || empty($this->fileTempPath)){
+          $this->errors[] = "The file location was not available.";
+          return false;
+        }
+  
+      if(!is_writable($this->fileSpbyPath)){
+          $this->errors[] = $this->fileSpbyPath." Must be writable!!!.";
+          return false;
+        }
+  
+      if(file_exists($this->fileSpbyPath."/".$this->fileName)){
+        $this->errors[] = "The file {$this->fileName} already exists.";
+        return false;
+      }
+      //$h =$this->spmPath.'/'.$this->fileName; var_dump($h); exit();// echo 
+      //echo $this->fileSpbyPath; echo "/"; echo $this->fileName; echo "<br>"; echo $this->fileTempPath; die;
+      if(move_uploaded_file($this->fileTempPath,$this->fileSpbyPath.'/'.$this->fileName))
+      {
+  
+        if($this->insert_spby($id)){
+          unset($this->fileTempPath);
+          return true;
+        }
+  
+      } else {
+  
+        $this->errors[] = "The file upload failed, possibly due to incorrect permissions on the upload folder.";
+        return false;
+      }
+  
+    }
   
     //function for process upload kekurangan
   public function process_kekurangan($id){
@@ -281,7 +350,7 @@ class  Media {
         }
   
       if(!is_writable($this->Adk_spm)){
-          $this->errors[] = $this->$Adk_spm." Must be writable!!!.";
+          $this->errors[] = $this->Adk_spm." Must be writable!!!.";
           return false;
         }
   
@@ -519,6 +588,19 @@ private function insert_pj($id){
   global $db;
   $sql  = "UPDATE pengajuan SET upload_pertanggungjawaban ='{$db->escape($this->fileName)}' WHERE id= '{$db->escape($id)}'";
 return ($db->query($sql) ? true : false);
+
+}
+
+ /*--------------------------------------------------------------*/
+/* Function for insert berkas spby
+/*--------------------------------------------------------------*/
+private function insert_spby($id){
+
+  global $db;
+    $sql  = "UPDATE detail_pengajuan SET file_spby ='{$db->escape($this->fileName)}' WHERE id= '{$db->escape($id)}'";
+
+   // echo $sql; die;
+  return ($db->query($sql) ? true : false);
 
 }
   /*--------------------------------------------------------------*/

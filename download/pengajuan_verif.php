@@ -8,28 +8,14 @@
    page_require_level(3); 
    }else if($user['user_level'] == 7 ){ //echo "7";exit();
      page_require_level(7); 
-   }else if($user['user_level'] == 10 ){ //echo "7";exit();
-    page_require_level(10); 
-  }else{ //echo "3";exit();
+   }else{ //echo "3";exit();
      page_require_level(3); 
    }
 
 
 ?>
 <?php
-   // echo $user['user_level']; die;
-  if($user['user_level']==2){
-     $sales = find_pengajuanokkurang();
-  }else if($user['user_level']==10){
-    $sales = find_pengajuanokkurangppspm();
-  }else if($user['user_level']==7){
-    $sales = find_pengajuanokkurangkv();
-  }
-
-
-if(isset($_POST['all'])){
-  $sales = find_pengajuanok();
-}
+$sales = find_pengajuanok();
 
 if(isset($_POST['cari'])){
   $sql = "select * from nodin where tanggal between '".$_POST['tgl1']."' and '".$_POST['tgl2']."'";
@@ -62,7 +48,6 @@ $idi= $_GET['id'];
                     <input type="date"   name="tgl2"> 
               
                     <input type="submit" class="btn btn-primary" name="cari" value="Cari">
-                    <input type="submit" class="btn btn-primary" name="all" value="All">
                 
               </form>
           </div>
@@ -79,7 +64,6 @@ $idi= $_GET['id'];
                 <th class="text-center" > Nominal Pengajuan </th>
                 <th class="text-center" > Status </th>
                 <th class="text-center" > Validasi Kasubbag </th>
-                <th class="text-center" > Validasi PPSPM </th>
                 <th class="text-center" > Lembar Verif </th>
                 <th class="text-center" > Waktu </th>
                 <th class="text-center" style="width: 100px;"> Actions </th>
@@ -90,7 +74,7 @@ $idi= $_GET['id'];
              <tr>
                <td class="text-center"><?php echo count_id();?></td>
                <td class="text-center" >
-                <?php echo remove_junk($sale['SPM']);  ?>
+                <?php echo remove_junk($sale['SPM']); ?>
                 
               </td>
               <td class="text-center"><?php $nodin=find_by_id('nodin',$sale['id_nodin']);$jenis=find_by_id('jenis',$nodin['id_jenis']); echo $jenis['keterangan']?> </td>
@@ -98,42 +82,22 @@ $idi= $_GET['id'];
               <td class="text-center"><?php $nodin= find_by_id('nodin',$sale['id_nodin']);echo $nodin['tanggal']; ?></td>
               <td class="text-center" ><?php $tp=find_NominalPengajuan($sale['id']);echo rupiah($tp['jum']);?></td>
               <td class="text-center" >
-                	<?php 
-                       $user = find_by_id('users',(int)$sale['status_verifikasi']); 
-                      if($sale['status'] == 1){
-                        echo "<span class='glyphicon glyphicon-ok-circle btn-success'></span>Terverifikasi oleh ".$user['name'];
-                      }else if($sale['status'] == 2){
-                          echo "<span class='glyphicon glyphicon-remove-circle btn-danger'></span>Ditolak oleh ".$user['name'];
+                	<?php if($sale['status_verifikasi'] == 0){
+                           echo "<span class='glyphicon glyphicon-remove-circle btn-danger'></span>Belom Terverifikasi ";
                       }else{
-                        echo "<span class='glyphicon glyphicon-remove-circle btn-warning'></span>Belom Terverifikasi ";
+                          echo "<span class='glyphicon glyphicon-ok-circle btn-success'></span>Terverifikasi ";
                       }	             		
                 	?>
               </td>
-
+              
               <td class="text-center" >
-                	<?php if($sale['verifikasi_kasubbag_v'] == '')
-                        {
-                           echo "<span class='glyphicon glyphicon-remove-circle btn-warning'></span>Belom Tervalidasi ";
-                        }else if($sale['verifikasi_kasubbag_v'] == 1){
+                	<?php if($sale['verifikasi_kasubbag_v'] == ''){
+                           echo "<span class='glyphicon glyphicon-remove-circle btn-danger'></span>Belom Tervalidasi ";
+                      }else{
                           echo "<span class='glyphicon glyphicon-ok-circle btn-success'></span>Tervalidasi ";
-                        }else if($sale['verifikasi_kasubbag_v']== 2){
-                          echo "<span class='glyphicon glyphicon-remove-circle btn-danger'></span>Ditolak ";
-                        }	             		
+                      }	             		
                 	?>
               </td>
-
-              <td class="text-center" >
-                	<?php  if($sale['status_ppspm'] == 0)
-                        {
-                           echo "<span class='glyphicon glyphicon-remove-circle btn-warning'></span>Belom Tervalidasi ";
-                        }else if($sale['status_ppspm'] == 1){
-                          echo "<span class='glyphicon glyphicon-ok-circle btn-success'></span>Tervalidasi ";
-                        }else if($sale['status_ppspm']== 2){
-                          echo "<span class='glyphicon glyphicon-remove-circle btn-danger'></span>Ditolak ";
-                        }	             		
-                	?>
-              </td>
-
               <td class="text-center" >
               <?php $verif = find_all_global('verifikasi',$sale['id'],'id_pengajuan');if($verif[0]['id_pengajuan']!=NULL){?>
           
@@ -149,8 +113,8 @@ $idi= $_GET['id'];
              }else if($sale['id_jenis_pengajuan']==5){
                echo "verif_LSkur50.php?id=".$sale['id_nodin']."&v=".$sale['id'];
              }else if($sale['id_jenis_pengajuan']==9){
-              echo "verif_by.Kuliah_LN.php?id=".$sale['id_nodin']."&v=".$sale['id'];
-            }else{
+               echo "verif_by.kuliah_LN.php?id=".$sale['id_nodin']."&v=".$sale['id'];
+             }else{
                echo "verif_GU.php?id=".$sale['id_nodin']."&v=".$sale['id'];
        
              }
@@ -176,7 +140,6 @@ $idi= $_GET['id'];
             <a href="cetakNodinSes.php?id=<?php echo $sale['id_nodin'];?>" class="btn btn-primary" target="_BLANK">Nodin Ses</a>
 
             <?php } ?>
-            <a href="fitur_verif.php?id=<?php echo $sale['id'];?>" class="btn btn-primary" >Verif</a>
               </td>
               <td class="text-center"><?php echo $sale['created_at']?></td>
                <td class="text-center">
@@ -194,7 +157,6 @@ $idi= $_GET['id'];
            <tfoot>
            <tr>
                 <th class="text-center" >#</th>
-                <th class="text-center" >  </th>
                 <th class="text-center" >  </th>
                 <th class="text-center" >  </th>
                 <th class="text-center" >  </th>

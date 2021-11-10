@@ -86,7 +86,7 @@
         <!-- admin menu -->
         <?php include_once('admin_menu.php');?>
 
-      <?php elseif($user['user_level'] === '2' or $user['user_level']== '7'): ?>
+      <?php elseif($user['user_level'] === '2' or $user['user_level']== '7' or $user['user_level']=='10'): ?>
         <!-- Special user -->
         <?php include_once('special_menu.php');?>
 
@@ -102,6 +102,8 @@
          <?php include_once('bpp_menu.php');?>
       <?php elseif($user['user_level'] === '8'): ?>
          <?php include_once('pimpinan.php');?>
+      <?php elseif($user['user_level'] === '9'): ?>
+         <?php include_once('konsultan.php');?>
       <?php endif;?>
 
    </div>

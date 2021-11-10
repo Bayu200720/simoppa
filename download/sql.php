@@ -12,62 +12,14 @@ function find_all($table) {
    }
 }
 
-function kekuranganVerif($id_satker)
-{
-  global $db;
-  $sql="SELECT p.SPM as SPM,kv.keterangan as keterangan,p.status_verifikasi as status_verifikasi,kv.id as id,n.id_satker as id_satker,p.status as status,kv.id_pengajuan as id_pengajuan FROM `pengajuan` p,kekurangan_verif kv,nodin n WHERE p.id_nodin=n.id and p.id = kv.id_pengajuan and kv.status_p !=0  and n.id_satker=$id_satker ORDER BY p.id DESC";
-  //echo $sql;//die;
-
-  return find_by_sql("SELECT p.SPM as SPM,kv.keterangan as keterangan,p.status_verifikasi as status_verifikasi,kv.id as id,n.id_satker as id_satker,p.status as status,kv.id_pengajuan as id_pengajuan,p.upload_kekurangan as upload_kekurangan FROM `pengajuan` p,kekurangan_verif kv,nodin n WHERE p.id_nodin=n.id and p.id = kv.id_pengajuan and kv.status_p !=0  and n.id_satker=$id_satker ORDER BY p.id DESC");
-}
-
-function kekuranganVerifV()
-{
-  global $db;
-  $sql="SELECT * FROM `pengajuan` p,kekurangan_verif kv,nodin n WHERE p.id_nodin=n.id and p.id = kv.id_pengajuan and kv.status_p= 0 AND kv.status_done= 0 ORDER BY p.id DESC";
-  //echo $sql; die; 
-  return find_by_sql("SELECT p.SPM as SPM,kv.keterangan as keterangan,p.status_verifikasi as status_verifikasi,kv.id as id, n.id_satker as id_satker,p.status as status,kv.id_pengajuan as id_pengajuan,p.upload_kekurangan as upload_kekurangan FROM `pengajuan` p,kekurangan_verif kv,nodin n WHERE p.id_nodin=n.id and p.id = kv.id_pengajuan and kv.status_p= 0 AND kv.status_done= 0 ORDER BY p.id DESC");
-}
-
 //find pengajuan yg status pengajuan 1
 function find_pengajuanok()
 {
   global $db;
 
-  return find_by_sql("SELECT p.status_ppspm as status_ppspm,p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang, p.status as status FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1  ORDER BY p.id DESC");
-}
-
-function find_pengajuanokKurang()
-{
-  global $db;
-
-  return find_by_sql("SELECT p.status_ppspm as status_ppspm,p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang, p.status as status FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.status=0 ORDER BY p.id DESC");
-}
-function find_pengajuanokKurangppspm()
-{
-  global $db;
-
-  return find_by_sql("SELECT p.status_ppspm as status_ppspm,p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang, p.status as status FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.status_ppspm=0 ORDER BY p.id DESC");
-}
-function find_pengajuanokKurangkv()
-{
-  global $db;
-
-  return find_by_sql("SELECT p.status_ppspm as status_ppspm,p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang, p.status as status FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.verifikasi_kasubbag_v=0 ORDER BY p.id DESC");
-}
-
-function find_pengajuan_kurang()
-{
-  global $db;
-
-  return find_by_sql("SELECT p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang  FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.followup_verif=0  ORDER BY p.id DESC");   
-}
-
-function find_pengajuan_kurang_satker($id_satker)
-{
-  global $db;
-
-  return find_by_sql("SELECT p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang  FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.followup_verif=1 and n.id_satker='{$id_satker}'  ORDER BY p.id DESC");   
+  return find_by_sql("SELECT p.id as id,p.SPM as SPM,p.status_verifikasi as status_verifikasi,p.status_kppn as status_kppn,p.status_spm as status_spm,p.status_sp2d as status_sp2d,p.upload as upload,p.id_nodin as id_nodin, p.sp2d as sp2d,p.created_at as created_at,p.verifikasi_kasubbag_v as verifikasi_kasubbag_v,p.id_jenis_pengajuan as id_jenis_pengajuan,p.penolakan_kppn as penolakan_kppn,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_adk as upload_adk,p.upload_pertanggungjawaban as upload_pertanggungjawaban, p.status_pengambilan_uang as status_pengambilan_uang  FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1  ORDER BY p.id DESC");
+    
+   
 }
 
 function find_pengajuanok_user($id_pverif,$bln)
@@ -99,14 +51,14 @@ function find_nodin_j_pengajuan($tahun,$id_satker)
 function find_nodin_j_pengajuan_kv($tahun)
 {
   global $db;
-  return find_by_sql("SELECT p.status_pj as status_pj,p.upload_pertanggungjawaban as upload_pertanggungjawaban,p.upload as upload,p.file_spm as file_spm,p.file_sp2d as file_sp2d,p.upload_kekurangan as upload_kekurangan,p.SPM as SPM,p.id as id,p.id_jenis_pengajuan as id_jenis_pengajuan,n.id_satker as id_satker FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and n.tahun='{$tahun}' ORDER BY p.id DESC");
+  return find_by_sql("SELECT p.status_pj as status_pj,p.upload_pertanggungjawaban as upload_pertanggungjawaban,p.upload_kekurangan as upload_kekurangan,p.SPM as SPM,p.id as id,p.id_jenis_pengajuan as id_jenis_pengajuan,n.id_satker as id_satker FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and n.tahun='{$tahun}' ORDER BY p.id DESC");
    
 }
 
 function find_nodin_j_pengajuan_spm($spm)
 {
   global $db;
-  return find_by_sql("SELECT p.upload, p.file_spm, p.file_sp2d, p.upload_kekurangan, p.upload_pertanggungjawaban,p.upload_adk,p.upload_adk_spm FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.SPM='{$spm}' ORDER BY p.id DESC");
+  return find_by_sql("SELECT p.upload, p.file_spm, p.file_sp2d, p.upload_kekurangan, p.upload_pertanggungjawaban, p.upload_adk_spm  FROM `pengajuan` p,nodin n WHERE p.id_nodin = n.id and n.status_pengajuan=1 and p.SPM='{$spm}' ORDER BY p.id DESC");
    
 }
 
@@ -220,14 +172,6 @@ function find_all_global($table,$id,$key) {
      return find_by_sql("SELECT * FROM ".$db->escape($table)." WHERE {$db->escape($key)} ='{$db->escape($id)}' ORDER BY id DESC");
    }
 }
-
-function find_all_ok($table) {
-  global $db;
-  if(tableExists($table))
-  {
-    return find_by_sql("SELECT * FROM ".$db->escape($table)." ORDER BY id DESC");
-  }
-}
 function find_all_global_pencairan($table,$id,$id2) {
   global $db;
   if(tableExists($table))
@@ -295,7 +239,7 @@ function find_all_group_by_satker($table,$key,$tahun) {
 /*--------------------------------------------------------------*/
 function find_filed_tabel($database,$tb) {
   global $db;
-  if(tableExists($tb))
+  if(tableExists($table))
   {
     return find_by_sql("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA='{$database}' AND TABLE_NAME='{$tb}'");
   }
@@ -377,7 +321,6 @@ function find_by_id($table,$id)
   $id = (int)$id;
     if(tableExists($table)){
           $sql = $db->query("SELECT * FROM {$db->escape($table)} WHERE id='{$db->escape($id)}' LIMIT 1");
-          
           if($result = $db->fetch_assoc($sql))
             return $result;
           else
@@ -400,7 +343,7 @@ function sumStatus($id)
 function find_DESC($table)
 {
   global $db;
- // $id = (int)$id;
+  $id = (int)$id;
     if(tableExists($table)){
           $sql = $db->query("SELECT * FROM {$db->escape($table)} ORDER BY id DESC LIMIT 1");
           if($result = $db->fetch_assoc($sql))
@@ -626,13 +569,13 @@ function find_pencairan_tahun($tahun,$id_satker,$panjar){
   /*--------------------------------------------------------------*/
 
  function updateLastLogIn($user_id)
-	{
-		global $db;
+  {
+    global $db;
     $date = make_date();
     $sql = "UPDATE users SET last_login='{$date}' WHERE id ='{$user_id}' LIMIT 1";
     $result = $db->query($sql);
     return ($result && $db->affected_rows() === 1 ? true : false);
-	}
+  }
 
   /*--------------------------------------------------------------*/
   /* Find all Group name
@@ -771,9 +714,6 @@ function find_pencairan_tahun($tahun,$id_satker,$panjar){
   $sql   = " SELECT s.keterangan as keterangan,sum(nominal) as total FROM `nodin`n,pengajuan p,detail_pengajuan dp,satker s WHERE s.id=n.id_satker and p.id_nodin = n.id and dp.id_pengajuan=p.id and p.status_sp2d!=0 and n.id_satker='{$id_satker}' and n.tahun='{$tahun}'";
   return find_by_sql($sql);
 }
-
-
-
  /*--------------------------------------------------------------*/
  /* Function for Find Highest saleing Product
  /*--------------------------------------------------------------*/
@@ -791,15 +731,6 @@ function find_pencairan_tahun($tahun,$id_satker,$panjar){
 function spm_blm_proses($id_satker){
   global $db;
   $sql  = "SELECT s.keterangan as keterangan, count(*) as total_spm FROM `nodin`n,pengajuan p,satker s WHERE s.id=n.id_satker and p.id_nodin = n.id and p.status_sp2d=0 and n.id_satker='{$id_satker}'";
-  return find_by_sql($sql);
-}
-
-function kekurangan_blm_proses($id_satker){
-  $sql  = "SELECT s.keterangan as keterangan, count(*) as total_kekurangan FROM `nodin`n,pengajuan p,satker s WHERE s.id=n.id_satker and p.id_nodin = n.id and p.followup_verif=1 and n.status_pengajuan=1 and n.id_satker='{$id_satker}'";
-  return find_by_sql($sql);
-}
-function kekurangan_blm_proses_all(){
-  $sql  = "SELECT count(*) as total_kurang FROM pengajuan p,nodin n WHERE n.id=p.id_nodin and p.followup_verif=0 and n.status_pengajuan=1";
   return find_by_sql($sql);
 }
  /*--------------------------------------------------------------*/

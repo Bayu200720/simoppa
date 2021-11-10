@@ -68,7 +68,7 @@ if(isset($_POST['update_mak'])){
     $nominal = remove_junk($db->escape($_POST['nominal']));
     
     if($id_satker==''){
-      $akun=find_all_global(akun,$id,'id');
+      $akun=find_all_global('akun',$id,'id');
       $id_satker = $akun[0]['id_satker'];
     }
     $date    = make_date();
